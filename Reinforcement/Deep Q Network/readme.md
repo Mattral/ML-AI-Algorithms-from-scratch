@@ -31,7 +31,7 @@ where:
 
 ### Deep Q Network (DQN)
 
-The Simple DQN Agent employs a neural network to approximate Q-values, allowing it to handle high-dimensional state spaces. The Q-network is trained to minimize the mean squared difference between predicted Q-values (\(Q_{\text{predicted}}\)) and target Q-values (\(Q_{\text{target}}\)):
+The Simple DQN Agent employs a neural network to approximate Q-values, allowing it to handle high-dimensional state spaces. The Q-network is trained to minimize the mean squared difference between predicted Q-values $(\(Q_{\text{predicted}}\))$ and target Q-values $(\(Q_{\text{target}}\))$:
 
 $$\[ \text{Loss} = \frac{1}{N} \sum_{i=1}^{N} (Q_{\text{predicted}}(S_i, A_i) - Q_{\text{target}}(S_i, A_i))^2 \]$$
 
