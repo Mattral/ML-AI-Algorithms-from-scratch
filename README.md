@@ -74,7 +74,7 @@ Understanding AI, ML, DL, and RL can be a daunting task, especially for beginner
 - **Comprehensive Documentation:** Each implementation is accompanied by thorough explanations, ensuring you not only run the code but understand it.
 - **Progressive Complexity:** Starting from simpler concepts, we gradually delve into more advanced algorithms, allowing you to build your knowledge progressively.
 
-## Explore Our Implementations
+## Explore my Implementations
 
 - **Neural Networks:** Dive into the realm of neural networks, from basic perceptrons to advanced architectures like LSTMs and Transformers.
 - **Reinforcement Learning:** Understand the dynamics of reinforcement learning through implementations of DDPG, DQN, PPO, and Q-learning.
