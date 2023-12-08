@@ -2,63 +2,7 @@
 
 This repository contains Python implementations of various supervised learning algorithms built from the ground up. Each algorithm is implemented with detailed documentation to help you understand the underlying principles.
 
-# Repo Structure
 
-```
-├── LICENSE
-├── README.md          <- The top-level README for developers/collaborators using this project.
-├── neural_network      <- Folder for Neural Network implementations
-│   ├── AutoEncoder.py
-│   ├── BoltzmannMachine.py
-│   ├── GenerativeAdversarialNetwork.py
-│   ├── HopfieldNetwork.py
-│   ├── LongShortTermMemoryLSTM.py
-│   ├── MultiLayerPerceptronClassification.py
-│   ├── MultiLayerPerceptronRegression.py
-│   ├── RadialBasisFunctionNetworks.py
-│   ├── SelfAttentionMechanism.py
-│   ├── SimpleCNN.py
-│   ├── SimpleEncoderDecoder.py
-│   ├── SimpleRNN.py
-│   ├── SingleLayerPerceptronClassification.py
-│   ├── SingleLayerPerceptronRegression.py
-│   ├── TitanicSurvialBySingleLayerPerceptron.py
-│   └── Transformer.py
-│
-├── reinforcement_learning  <- Folder for Reinforcement Learning implementations
-│   ├── Deep Deterministic Policy Gradients
-│   ├── Deep Q Network
-│   ├── Proximal Policy Optimization
-│   └── QLearning
-│
-├── supervised            <- Folder for Supervised Learning implementations
-│   ├── DecisionTrees
-│   ├── KnearestNeighbour
-│   ├── LassoRegression
-│   ├── LinearRegression
-│   ├── LogisticRegression
-│   ├── Naive Bayes
-│   ├── RandomForest
-│   ├── RidgeRegression
-│   └── SupportVectorMachines
-│
-├── unsupervised          <- Folder for Unsupervised Learning implementations
-│   ├── AprioriAlgorithm
-│   ├── Density-Based Spatial Clustering of Applications with Noise
-│   ├── Expectation-Maximization
-│   ├── Gaussian Mixture Model
-│   ├── HierarchicalClustering
-│   ├── IndependentComponentAnalysis
-│   ├── K-MedoidsClustering
-│   ├── KMeansPlusPlus
-│   ├── PrincipalComponentAnalysis
-│   ├── SelfOrganizing Map
-│   ├── kmeanclustering
-│   └── tSNE
-│
-└── 
-
-```
 
 ## Algorithms Included:
 
