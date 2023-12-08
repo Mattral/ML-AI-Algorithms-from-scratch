@@ -13,15 +13,16 @@ SAC consists of an actor network for policy learning and a critic network for va
 ### Entropy-Regularized Objective Function
 
 SAC optimizes the following objective function:
-
+```math
 \[ J(\theta) = \mathbb{E}_{(s, a) \sim \mathcal{D}} \left[ \alpha \log \pi_\theta(a|s) - Q_\phi(s, a) + \alpha \log \frac{1}{\pi_\theta(a|s)} \right] \]
+```
 
 where:
-- \( J(\theta) \) is the objective function.
-- \( \theta \) are the parameters of the policy network.
-- \( \alpha \) is the entropy regularization coefficient.
-- \( \pi_\theta(a|s) \) is the policy distribution.
-- \( Q_\phi(s, a) \) is the Q-value estimated by the critic network.
+- $\( J(\theta) \)$ is the objective function.
+- $\( \theta \)$ are the parameters of the policy network.
+- $\( \alpha \)$ is the entropy regularization coefficient.
+- $\( \pi_\theta(a|s) \)$ is the policy distribution.
+- $\( Q_\phi(s, a) \)$ is the Q-value estimated by the critic network.
 
 ### Policy and Value Networks
 
