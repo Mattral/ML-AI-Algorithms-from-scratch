@@ -66,7 +66,7 @@ Are you eager to grasp the core concepts of these cutting-edge technologies? Loo
 
 ## Why Learn From Scratch?
 
-Understanding AI, ML, DL, and RL can be a daunting task, especially for beginners. Yet, we believe that building these algorithms from the ground up offers unparalleled insights. By diving into the code, you'll gain a profound understanding of the inner workings, demystifying the complex algorithms that power the technology around us.
+Understanding AI, ML, DL, and RL can be a daunting task, especially for beginners. Yet, I believe that building these algorithms from the ground up offers unparalleled insights. By diving into the code, you'll gain a profound understanding of the inner workings, demystifying the complex algorithms that power the technology around us.
 
 ## What Sets This Apart?
 
