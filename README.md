@@ -8,22 +8,22 @@ Welcome to my comprehensive repository dedicated to unraveling the mysteries of 
 ├── LICENSE
 ├── README.md          <- The top-level README for developers/collaborators using this project.
 ├── neural_network      <- Folder for Neural Network implementations
-│   ├── AutoEncoder.py
-│   ├── BoltzmannMachine.py
-│   ├── GenerativeAdversarialNetwork.py
-│   ├── HopfieldNetwork.py
-│   ├── LongShortTermMemoryLSTM.py
-│   ├── MultiLayerPerceptronClassification.py
-│   ├── MultiLayerPerceptronRegression.py
-│   ├── RadialBasisFunctionNetworks.py
-│   ├── SelfAttentionMechanism.py
-│   ├── SimpleCNN.py
-│   ├── SimpleEncoderDecoder.py
-│   ├── SimpleRNN.py
-│   ├── SingleLayerPerceptronClassification.py
-│   ├── SingleLayerPerceptronRegression.py
-│   ├── TitanicSurvialBySingleLayerPerceptron.py
-│   └── Transformer.py
+│   ├── AutoEncoder
+│   ├── BoltzmannMachine
+│   ├── GenerativeAdversarialNetwork
+│   ├── HopfieldNetwork
+│   ├── LongShortTermMemoryLSTM
+│   ├── MultiLayerPerceptronClassification
+│   ├── MultiLayerPerceptronRegression
+│   ├── RadialBasisFunctionNetworks
+│   ├── SelfAttentionMechanism
+│   ├── SimpleCNN
+│   ├── SimpleEncoderDecoder
+│   ├── SimpleRNN
+│   ├── SingleLayerPerceptronClassification
+│   ├── SingleLayerPerceptronRegression
+│   ├── TitanicSurvialBySingleLayerPerceptron
+│   └── Transformer
 │
 ├── reinforcement_learning  <- Folder for Reinforcement Learning implementations
 │   ├── Deep Deterministic Policy Gradients
