@@ -1,5 +1,7 @@
 # Deep Deterministic Policy Gradients (DDPG) Implementation
 
+needs more debugging (to be continued)
+
 ## Overview
 
 This repository contains a Python implementation of the Deep Deterministic Policy Gradients (DDPG) algorithm. DDPG is an off-policy actor-critic algorithm that is particularly well-suited for continuous action spaces in reinforcement learning.
