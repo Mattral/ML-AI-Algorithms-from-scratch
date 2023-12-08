@@ -1,6 +1,6 @@
 # AI, ML, DL, and RL Demystified: From Scratch to Understanding
 
-Welcome to our comprehensive repository dedicated to unraveling the mysteries of Artificial Intelligence (AI), Machine Learning (ML), Deep Learning (DL), and Reinforcement Learning (RL). 🚀
+Welcome to my comprehensive repository dedicated to unraveling the mysteries of Artificial Intelligence (AI), Machine Learning (ML), Deep Learning (DL), and Reinforcement Learning (RL). 🚀
 
 # Repo Structure
 
@@ -68,7 +68,7 @@ Are you eager to grasp the core concepts of these cutting-edge technologies? Loo
 
 Understanding AI, ML, DL, and RL can be a daunting task, especially for beginners. Yet, we believe that building these algorithms from the ground up offers unparalleled insights. By diving into the code, you'll gain a profound understanding of the inner workings, demystifying the complex algorithms that power the technology around us.
 
-## What Sets Us Apart?
+## What Sets This Apart?
 
 - **Educational Focus:** Every algorithm is meticulously implemented with educational purposes in mind.
 - **Comprehensive Documentation:** Each implementation is accompanied by thorough explanations, ensuring you not only run the code but understand it.
