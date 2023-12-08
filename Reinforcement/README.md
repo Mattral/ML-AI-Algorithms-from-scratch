@@ -5,7 +5,8 @@ This repository contains Python implementations of various reinforcement learnin
 ## Algorithms Included:
 
 1. **Deep Deterministic Policy Gradients (DDPG)**
-   - File: `SimpleDDPG.py`DRL algorithm for learning continuous control policies.
+  - File: `SimpleDDPG.py`
+   - Description: Implementation of DDPG, an off-policy DRL algorithm for learning continuous control policies..
 
 2. **Deep Q Network (DQN)**
    - File: `DQN.py`
