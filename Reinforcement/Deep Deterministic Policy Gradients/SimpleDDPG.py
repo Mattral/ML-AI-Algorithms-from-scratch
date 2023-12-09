@@ -1,5 +1,5 @@
 """
-Needs re-implementation, has several bugs
+Needs re-implementation, has several bugs, use DDPG.py in this directory for better implementation
 """
 import numpy as np
 
