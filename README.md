@@ -28,6 +28,7 @@ Welcome to my comprehensive repository dedicated to unraveling the mysteries of 
 ├── reinforcement_learning  <- Folder for Reinforcement Learning implementations
 │   ├── Deep Deterministic Policy Gradients
 │   ├── Deep Q Network
+│   ├── Soft Actor Crtic
 │   ├── Proximal Policy Optimization
 │   └── QLearning
 │
