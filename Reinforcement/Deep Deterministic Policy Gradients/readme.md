@@ -1,7 +1,7 @@
 # Deep Deterministic Policy Gradients (DDPG) Overview
 
 ## Introduction
-DDPG is an off-policy reinforcement learning algorithm designed for continuous action spaces. It combines ideas from both Q-learning and policy gradients to learn a deterministic policy for continuous control tasks.
+DDPG is an off-policy deep reinforcement learning algorithm designed for continuous action spaces. It combines ideas from both Q-learning and policy gradients to learn a deterministic policy for continuous control tasks.
 
 ## Actor-Critic Architecture
 DDPG utilizes an Actor-Critic architecture, where:
