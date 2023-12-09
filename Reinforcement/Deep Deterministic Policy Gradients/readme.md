@@ -1,83 +1,52 @@
-# Deep Deterministic Policy Gradients (DDPG) Implementation
+# Deep Deterministic Policy Gradients (DDPG) Overview
 
-needs more debugging (to be continued)
+## Introduction
+DDPG is an off-policy reinforcement learning algorithm designed for continuous action spaces. It combines ideas from both Q-learning and policy gradients to learn a deterministic policy for continuous control tasks.
 
-## Overview
-
-This repository contains a Python implementation of the Deep Deterministic Policy Gradients (DDPG) algorithm. DDPG is an off-policy actor-critic algorithm that is particularly well-suited for continuous action spaces in reinforcement learning.
-
-## Contents
-
-- [Actor](#actor)
-- [Critic](#critic)
-- [DDPG Agent](#ddpg-agent)
-- [Usage](#usage)
-- [Dependencies](#dependencies)
-- [License](#license)
+## Actor-Critic Architecture
+DDPG utilizes an Actor-Critic architecture, where:
+- **Actor** learns the optimal policy to map states to actions.
+- **Critic** evaluates the quality of the actions chosen by the Actor.
 
 ## Actor
+The Actor is a neural network that takes the state as input and outputs the corresponding action. It approximates the optimal policy in a deterministic manner. The output is scaled to match the action space's constraints.
 
-The `Actor` class represents the policy network, which takes the environment state as input and outputs continuous actions. The actor utilizes a fully connected neural network with ReLU activation functions.
+### Actor Network Architecture
+- Input: State representation
+- Output: Scaled action values
+
+### Training
+- The Actor is trained to maximize the expected return by adjusting its parameters.
+- The gradient is obtained from the Critic's evaluation of the Actor's chosen actions.
 
 ## Critic
+The Critic is a neural network that evaluates the quality of the actions chosen by the Actor. It takes both the state and action as input and outputs the estimated Q-value.
 
-The `Critic` class represents the value function network, which evaluates the state-action pairs. It consists of separate pathways for processing states and actions, and the results are concatenated before passing through a fully connected layer.
+### Critic Network Architecture
+- Input: State and action
+- Output: Q-value estimation
 
-## DDPG Agent
+### Training
+- The Critic is trained to minimize the Mean Squared Bellman Error.
+- It learns to approximate the Q-value function by comparing predicted Q-values with target Q-values.
 
-The `DDPG` class brings together the actor and critic networks to create a complete DDPG agent. It includes methods for selecting actions, training the networks, and updating target networks.
+## DDPG Logic
+1. **Initialization**: Initialize Actor and Critic networks, target networks, and replay buffer.
+2. **Actor-Critic Interaction**: Interact with the environment using the Actor to select actions.
+3. **Replay Buffer**: Store experiences (state, action, reward, next state) in a replay buffer.
+4. **Training**: Sample batches from the replay buffer and update the Actor and Critic networks.
+   - Update Critic to minimize the Bellman error.
+   - Update Actor to maximize the expected return based on Critic's evaluation.
+5. **Soft Updates**: Update target networks using a soft update strategy for stability.
+6. **Repeat**: Repeat the process for multiple episodes.
 
-### Hyperparameters
+## Real-World Uses
+DDPG is commonly employed in real-world applications, such as:
+- **Robotics**: Control robotic systems for tasks like manipulation and locomotion.
+- **Autonomous Vehicles**: Learn continuous control policies for vehicle navigation.
+- **Finance**: Optimize portfolio management and trading strategies.
+- **Healthcare**: Personalized treatment recommendation systems.
+- **Game Playing**: Control agents in video games for complex actions.
 
-- State dimension (`state_dim`): Dimensionality of the environment state.
-- Action dimension (`action_dim`): Dimensionality of the action space.
-- Maximum action value (`max_action`): Maximum value for scaling the output of the actor.
-- Discount factor (`discount`): Discount factor for future rewards.
-- Target network update rate (`tau`): Rate at which target networks are updated.
-- Actor learning rate (`actor_lr`): Learning rate for the actor network.
-- Critic learning rate (`critic_lr`): Learning rate for the critic network.
+DDPG is suitable for scenarios where actions are continuous, and high-dimensional state and action spaces are present.
 
-## Usage
-
-Example usage of the DDPG agent in a simple environment is provided in the [example script](example.py). To use the DDPG algorithm in your custom environment, follow these steps:
-
-1. Define your environment and specify the state and action dimensions.
-2. Create an instance of the `DDPG` class with the appropriate dimensions.
-3. Implement a replay buffer to store and sample experiences.
-4. Train the DDPG agent using the `train` method.
-
-```python
-# Example Usage
-state_dim = 3
-action_dim = 1
-max_action = 1.0
-
-# Create DDPG agent
-ddpg_agent = DDPG(state_dim, action_dim, max_action)
-
-# Dummy replay buffer (replace with your own implementation)
-replay_buffer = DummyReplayBuffer(capacity=10000)
-
-# Dummy environment (replace with your own implementation)
-env = DummyEnvironment()
-
-# Training loop
-for episode in range(1000):
-    state = env.reset()
-    total_reward = 0
-
-    for step in range(200):  # Assuming a maximum of 200 steps per episode
-        action = ddpg_agent.select_action(state)
-        next_state, reward, done = env.step(action)
-        replay_buffer.add(state, action, reward, next_state, done)
-
-        if len(replay_buffer.buffer) > 64:  # Start training after 64 samples in the buffer
-            actor_loss, critic_loss = ddpg_agent.train(replay_buffer, batch_size=64)
-
-        state = next_state
-        total_reward += reward
-
-        if done:
-            break
-
-    print(f"Episode: {episode + 1}, Total Reward: {total_reward}")
