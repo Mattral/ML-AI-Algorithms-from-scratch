@@ -62,6 +62,9 @@ Welcome to my comprehensive repository dedicated to unraveling the mysteries of 
     ├── BayesianNetwork
     ├── Gibbs Sampling
     ├── Metropolis-Hastings Algorithm
+    ├── Bayesian Neural Networks
+    ├── BayesianLinearRegression
+    └── Variational Inference
 
 ```
 
