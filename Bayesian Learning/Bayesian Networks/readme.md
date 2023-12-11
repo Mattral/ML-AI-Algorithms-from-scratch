@@ -29,10 +29,4 @@ The Bayesian Network Algorithm includes functionalities for:
 - **Fraud Detection:** In finance, Bayesian Networks help detect fraudulent activities in transactions.
 - **Natural Language Processing:** Used in language models and information retrieval systems.
 
-## Contribution
 
-Contributions are welcome! Feel free to open issues or pull requests.
-
-## License
-
-This project is licensed under the [MIT License](LICENSE).
