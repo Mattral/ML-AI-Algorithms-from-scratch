@@ -60,6 +60,7 @@ Welcome to my comprehensive repository dedicated to unraveling the mysteries of 
 └── Bayesian Learning
     ├── BayesianInference
     ├── BayesianNetwork
+    ├── Gibbs Sampling
 
 ```
 
