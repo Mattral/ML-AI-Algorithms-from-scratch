@@ -57,7 +57,7 @@ Welcome to my comprehensive repository dedicated to unraveling the mysteries of 
 │   ├── kmeanclustering
 │   └── tSNE
 │
-└── 
+└── Bayesian Learning
 
 ```
 
