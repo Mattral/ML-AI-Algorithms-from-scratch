@@ -114,6 +114,11 @@ Neural networks are a class of machine learning models inspired by the structure
 
 Reinforcement learning is a type of machine learning where an agent learns to make decisions by interacting with an environment. The agent receives feedback in the form of rewards or penalties based on the actions it takes. The goal is for the agent to learn a policy that maximizes cumulative reward over time. Reinforcement learning is commonly used in applications such as game playing, robotics, and autonomous systems.
 
+### What is Bayesian Learning?
+
+Bayesian learning is a statistical framework that combines prior knowledge with new evidence to update and refine our beliefs about uncertain quantities. Unlike traditional machine learning approaches that focus solely on point estimates, Bayesian learning provides a probabilistic framework for reasoning about uncertainty.
+
+
 ## Algorithms Included:
 
 
