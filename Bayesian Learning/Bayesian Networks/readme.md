@@ -20,7 +20,9 @@ The Bayesian Network Algorithm includes functionalities for:
 - Easy visualization of the network structure.
 
 ### Cons
-
+- Computational Complexity: Bayesian Networks can become computationally expensive.
+- Handling Continuous Variables: Bayesian Networks typically assume discrete variables, and handling continuous variables can be challenging
+- Sensitive to Prior Selection: The choice of priors in Bayesian inference can impact the results. The sensitivity to prior selection is a characteristic of Bayesian methods and requires careful consideration.
 - Placeholder conditional probability function; replace with a meaningful implementation for real-world applications.
 - (the implementation provided in the code for conditional probabilities within the Bayesian Network algorithm is simplistic and not suitable for real-world scenarios.)
 
