@@ -17,10 +17,10 @@ Gibbs Sampling is a Markov Chain Monte Carlo (MCMC) algorithm used for generatin
 ## Mathematical Explanation
 
 Let \( (x, y) \) be the variables of interest. The algorithm updates each variable based on the conditional distribution:
-```math
-\[ x \sim \mathcal{N}(y, 1.0) \]
-\[ y \sim \mathcal{N}(x, 1.0) \]
-```
+
+$$\[ x \sim \mathcal{N}(y, 1.0) \]$$
+$$\[ y \sim \mathcal{N}(x, 1.0) \]$$
+
 Here, $\( \mathcal{N}(\mu, \sigma) \)$ denotes the normal distribution with mean $\( \mu \)$ and standard deviation $\( \sigma \)$.
 
 ## Pros and Cons
