@@ -118,7 +118,6 @@ Reinforcement learning is a type of machine learning where an agent learns to ma
 Bayesian learning is a statistical framework that combines prior knowledge with new evidence to update and refine our beliefs about uncertain quantities. Unlike traditional machine learning approaches that focus solely on point estimates, Bayesian learning provides a probabilistic framework for reasoning about uncertainty.
 
 
-
 ## Usage
 
 Each algorithm is provided as a standalone Python script. You can run these scripts to see the algorithms in action. Additionally, the code is extensively documented to help you understand the implementation details.
