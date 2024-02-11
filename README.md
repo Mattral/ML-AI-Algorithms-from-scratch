@@ -65,7 +65,6 @@ Welcome to my comprehensive repository dedicated to unraveling the mysteries of 
     ├── Bayesian Neural Networks
     ├── BayesianLinearRegression
     └── Variational Inference
-
 ```
 
 ## What to Expect
