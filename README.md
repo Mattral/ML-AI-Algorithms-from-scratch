@@ -7,6 +7,7 @@ Welcome to my comprehensive repository dedicated to unraveling the mysteries of 
 ```
 ├── LICENSE
 ├── README.md          <- The top-level README for developers/collaborators using this project.
+│
 ├── neural_network      <- Folder for Neural Network implementations
 │   ├── AutoEncoder
 │   ├── BoltzmannMachine
