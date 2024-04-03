@@ -2,7 +2,7 @@
 
 
 
-This project demonstrates how to implement a basic neural network from scratch using Python and NumPy. The neural network is designed, trained, and evaluated on the digit recognition task using the popular MNIST dataset. The project covers several key aspects of machine learning, including data preprocessing, model architecture design, training and testing the model, and evaluating its performance with different metrics.
+This project demonstrates how to implement more complete version of a basic neural network from scratch using Python and NumPy. The neural network is designed, trained, and evaluated on the digit recognition task using the popular MNIST dataset. The project covers several key aspects of machine learning, including data preprocessing, model architecture design, training and testing the model, and evaluating its performance with different metrics.
 
 ## Overview
 
