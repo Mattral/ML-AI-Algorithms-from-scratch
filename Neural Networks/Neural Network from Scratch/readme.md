@@ -44,7 +44,4 @@ The project includes several visualization techniques to better understand and e
 
 Future enhancements could include experimenting with different model architectures, implementing more sophisticated optimization algorithms, or applying the model to other datasets or tasks.
 
-## License
-
-This project is open-sourced under the MIT license.
 
