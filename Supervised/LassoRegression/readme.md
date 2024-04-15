@@ -42,7 +42,7 @@ The objective function in lasso regression is:
 \min_{\beta} \left\{ \frac{1}{2n} \sum_{i=1}^n (y_i - x_i^T \beta)^2 + \lambda \|\beta\|_1 \right\}\]
 ```
 
-*Objective Function:*
+*Objective Function: ( simplified form focusing on the general structure)*
 $$\[ J(\theta) = \text{MSE}(\theta) + \alpha \sum_{i=1}^{n} |\theta_i| \]$$
 
 *Update Rule (Coordinate Descent):*
