@@ -12,7 +12,27 @@ Here:
 
 The optimization involves updating the coefficients (\(\theta_i\)) using coordinate descent, where each coefficient is adjusted in turn while keeping others fixed.
 
-**Uses:**
+
+## Key Features of Lasso Regression:
+1. Regularization:
+
+- Lasso regression modifies the least squares objective function by adding a penalty equivalent to the absolute value of the magnitude of the coefficients. This is known as an L1 penalty.
+- The regularization term is controlled by a hyperparameter, often denoted as 
+λ (lambda). As λ increases, the impact of the penalty increases, and more coefficients are driven to zero.
+
+2. Sparsity:
+
+- One of the consequences of the L1 penalty is that it can force some of the coefficient estimates to be exactly zero when the tuning parameter λ is sufficiently large. This means that lasso can yield sparse models where only a subset of the predictors are used.
+
+3. Feature Selection:
+
+Because it can zero out coefficients, lasso regression can be seen as performing a form of automatic feature selection. This helps in identifying a simpler, more interpretable model that might generalize better to new data.
+
+## When to Use Lasso Regression:
+- High Dimensionality: Particularly useful when you have more features than observations.
+- Model Interpretability: When you need a model that is easy to interpret because it automatically reduces the number of variables included by selecting only a subset of them.
+- Prevention of Overfitting: By introducing regularization, lasso helps to prevent the model from fitting the noise in the training data.
+
 1. **Feature Selection:** Lasso Regression tends to shrink the coefficients of less important features to exactly zero, effectively performing feature selection.
 2. **Regression with Regularization:** When dealing with high-dimensional data or multicollinearity, Lasso can be useful to prevent overfitting.
 
