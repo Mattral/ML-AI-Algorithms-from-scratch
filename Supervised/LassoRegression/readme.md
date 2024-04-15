@@ -38,7 +38,7 @@ The optimization involves updating the coefficients (\(\theta_i\)) using coordin
 ## Mathematical Expressions:
 
 
-$$\[\min \begin{cases}1&n\\\frac{1}{2n}\sum_{i=1}^{n}(y_{i}-x^{T}_{i})\beta)^{2}+\lambda||\beta||_{1}\end{cases} }\]$$
+$$\[ \min \begin{cases}1&n\\\frac{1}{2n}\sum_{i=1}^{n}(y_{i}-x^{T}_{i})\beta)^{2}+\lambda||\beta||_{1}\end{cases} } \]$$
 
 *Objective Function:*
 $$\[ J(\theta) = \text{MSE}(\theta) + \alpha \sum_{i=1}^{n} |\theta_i| \]$$
