@@ -21,7 +21,10 @@ The algorithm proceeds by iterating through the data points, identifying core po
 Let $\(D\)$ be the dataset, $\(p\)$ and $\(q\)$ be data points in $\(D\)$, $\(\varepsilon\)$ be the neighborhood radius, and $\(min\_samples\)$ be the minimum number of points in the neighborhood.
 
 - **Core Point:**
-  - A point $\(p\)$ is a core point if $\(\left| \{ q \in D \mid \text{distance}(p, q) \leq \varepsilon \} \right| \geq \text{min\_samples}\)$.
+  - A point $\(p\)$ is a core point if
+  - ```math
+    $\(\left| \{ q \in D \mid \text{distance}(p, q) \leq \varepsilon \} \right| \geq \text{min\_samples}\)$
+    ```
 
 - **Directly Density-Reachable:**
   - Points \(p\) and \(q\) are directly density-reachable if $\(\text{distance}(p, q) \leq \varepsilon\)$.
