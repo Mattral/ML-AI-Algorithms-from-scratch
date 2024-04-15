@@ -37,8 +37,10 @@ The optimization involves updating the coefficients (\(\theta_i\)) using coordin
 
 ## Mathematical Expressions:
 
+The objective function in lasso regression is:
 ```math
-\[ \min \begin{cases}1&n\\\frac{1}{2n}\sum_{i=1}^{n}(y_{i}-x^{T}_{i})\beta)^{2}+\lambda||\beta||_{1}\end{cases} } \]
+\min_{\beta} \left\{ \frac{1}{2n} \sum_{i=1}^n (y_i - x_i^T \beta)^2 + \lambda \|\beta\|_1 \right\}
+\]
 ```
 
 *Objective Function:*
