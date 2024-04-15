@@ -33,10 +33,10 @@ Because it can zero out coefficients, lasso regression can be seen as performing
 - Model Interpretability: When you need a model that is easy to interpret because it automatically reduces the number of variables included by selecting only a subset of them.
 - Prevention of Overfitting: By introducing regularization, lasso helps to prevent the model from fitting the noise in the training data.
 
-1. **Feature Selection:** Lasso Regression tends to shrink the coefficients of less important features to exactly zero, effectively performing feature selection.
-2. **Regression with Regularization:** When dealing with high-dimensional data or multicollinearity, Lasso can be useful to prevent overfitting.
+- **Feature Selection:** Lasso Regression tends to shrink the coefficients of less important features to exactly zero, effectively performing feature selection.
+- **Regression with Regularization:** When dealing with high-dimensional data or multicollinearity, Lasso can be useful to prevent overfitting.
 
-**Mathematical Expressions:**
+## Mathematical Expressions:
 
 *Objective Function:*
 $$\[ J(\theta) = \text{MSE}(\theta) + \alpha \sum_{i=1}^{n} |\theta_i| \]$$
