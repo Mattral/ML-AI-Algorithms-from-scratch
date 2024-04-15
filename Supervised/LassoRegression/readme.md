@@ -25,14 +25,13 @@ The optimization involves updating the coefficients (\(\theta_i\)) using coordin
 - One of the consequences of the L1 penalty is that it can force some of the coefficient estimates to be exactly zero when the tuning parameter λ is sufficiently large. This means that lasso can yield sparse models where only a subset of the predictors are used.
 
 3. Feature Selection:
-
 Because it can zero out coefficients, lasso regression can be seen as performing a form of automatic feature selection. This helps in identifying a simpler, more interpretable model that might generalize better to new data.
 
 ## When to Use Lasso Regression:
+
 - High Dimensionality: Particularly useful when you have more features than observations.
 - Model Interpretability: When you need a model that is easy to interpret because it automatically reduces the number of variables included by selecting only a subset of them.
 - Prevention of Overfitting: By introducing regularization, lasso helps to prevent the model from fitting the noise in the training data.
-
 - **Feature Selection:** Lasso Regression tends to shrink the coefficients of less important features to exactly zero, effectively performing feature selection.
 - **Regression with Regularization:** When dealing with high-dimensional data or multicollinearity, Lasso can be useful to prevent overfitting.
 
