@@ -25,7 +25,7 @@ The optimization involves updating the coefficients (\(\theta_i\)) using coordin
 - One of the consequences of the L1 penalty is that it can force some of the coefficient estimates to be exactly zero when the tuning parameter λ is sufficiently large. This means that lasso can yield sparse models where only a subset of the predictors are used.
 
 3. Feature Selection:
-Because it can zero out coefficients, lasso regression can be seen as performing a form of automatic feature selection. This helps in identifying a simpler, more interpretable model that might generalize better to new data.
+- Because it can zero out coefficients, lasso regression can be seen as performing a form of automatic feature selection. This helps in identifying a simpler, more interpretable model that might generalize better to new data.
 
 ## When to Use Lasso Regression:
 
@@ -36,6 +36,9 @@ Because it can zero out coefficients, lasso regression can be seen as performing
 - **Regression with Regularization:** When dealing with high-dimensional data or multicollinearity, Lasso can be useful to prevent overfitting.
 
 ## Mathematical Expressions:
+
+
+$$\[\min \begin{cases}1&n\\\frac{1}{2n}\sum_{i=1}^{n}(y_{i}-x^{T}_{i})\beta)^{2}+\lambda||\beta||_{1}\end{cases} }\]$$
 
 *Objective Function:*
 $$\[ J(\theta) = \text{MSE}(\theta) + \alpha \sum_{i=1}^{n} |\theta_i| \]$$
