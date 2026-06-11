@@ -1,52 +1,195 @@
+# pyproject.toml — mlscratch
+# PEP 517/518/621 compliant.  "pip install mlscratch" resolves from this file.
+# Mirrors the KANX production standard.
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Build system
+# ──────────────────────────────────────────────────────────────────────────────
 [build-system]
-requires = ["setuptools>=68", "wheel"]
+requires      = ["setuptools>=68", "wheel"]
 build-backend = "setuptools.build_meta"
 
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Project metadata  (PEP 621)
+# ──────────────────────────────────────────────────────────────────────────────
 [project]
-name = "mlscratch"
-version = "2.0.0"
-description = "Educational from-scratch implementations of ML/AI/RL algorithms — NumPy only."
-authors = [{name = "Min Htet Myet"}]
-license = {text = "Apache-2.0"}
-readme = "README.md"
+name            = "mlscratch"
+version         = "0.1.0"
+description     = "Pure-NumPy from-scratch implementations of ML/AI/RL/Bayesian algorithms — no PyTorch, no TensorFlow, no scikit-learn."
+readme          = "README.md"
 requires-python = ">=3.10"
-keywords = ["machine-learning", "from-scratch", "numpy", "education", "algorithms", "reinforcement-learning", "bayesian"]
-classifiers = [
-  "Development Status :: 5 - Production/Stable",
-  "Intended Audience :: Education",
-  "Intended Audience :: Science/Research",
-  "License :: OSI Approved :: Apache Software License",
-  "Programming Language :: Python :: 3",
-  "Topic :: Scientific/Engineering :: Artificial Intelligence",
-  "Typing :: Typed",
+license         = { text = "Apache-2.0" }
+authors         = [{ name = "Mattral", email = "mattral@example.com" }]
+keywords        = [
+    "machine-learning", "deep-learning", "reinforcement-learning",
+    "bayesian", "numpy", "from-scratch", "education", "algorithms",
+    "neural-network", "unsupervised", "supervised",
 ]
-dependencies = ["numpy>=1.23"]
+classifiers     = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "Intended Audience :: Education",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Education",
+    "Typing :: Typed",
+]
 
+# Runtime dependencies — pure numpy only.  No heavy ML frameworks.
+dependencies = [
+    "numpy>=1.23",
+]
+
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Optional dependency groups  (pip install mlscratch[dev])
+# ──────────────────────────────────────────────────────────────────────────────
 [project.optional-dependencies]
-plot = ["matplotlib>=3.7"]
-dev = ["pytest>=7", "pytest-cov>=4", "ruff>=0.1", "scikit-learn>=1.3", "scipy>=1.11", "hypothesis>=6", "black>=23", "mypy>=1.8"]
-docs = ["mkdocs>=1.6", "mkdocs-material>=9.5", "mkdocstrings[python]>=0.24"]
-bench = ["tabulate>=0.9"]
-all = ["mlscratch[plot,dev,docs,bench]"]
+dev = [
+    # Testing
+    "pytest>=7",
+    "pytest-cov>=4",
+    "pytest-benchmark>=4",
+    "hypothesis>=6",          # property-based testing
+    # Code quality
+    "ruff>=0.4",
+    "black>=24",
+    "mypy>=1.8",
+    # Packaging / release
+    "build>=1",
+    "twine>=5",
+]
+docs = [
+    "mkdocs>=1.6",
+    "mkdocs-material>=9.5",
+    "mkdocstrings[python]>=0.25",
+]
+notebooks = [
+    "jupyter>=1.0",
+    "matplotlib>=3.7",
+    "pandas>=2.0",
+]
+all = ["mlscratch[dev,docs,notebooks]"]
 
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Entry points
+# ──────────────────────────────────────────────────────────────────────────────
+[project.scripts]
+mlscratch = "mlscratch.__main__:main"
+
+
+# ──────────────────────────────────────────────────────────────────────────────
+# URLs shown on PyPI
+# ──────────────────────────────────────────────────────────────────────────────
+[project.urls]
+Homepage      = "https://github.com/Mattral/ML-AI-Algorithms-from-scratch"
+Documentation = "https://mattral.github.io/ML-AI-Algorithms-from-scratch/"
+Repository    = "https://github.com/Mattral/ML-AI-Algorithms-from-scratch"
+Issues        = "https://github.com/Mattral/ML-AI-Algorithms-from-scratch/issues"
+Changelog     = "https://github.com/Mattral/ML-AI-Algorithms-from-scratch/blob/main/CHANGELOG.md"
+
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Package discovery — CRITICAL for src/ layout.
+# Without this block setuptools cannot find mlscratch after install.
+# ──────────────────────────────────────────────────────────────────────────────
 [tool.setuptools.packages.find]
 where = ["src"]
 
+[tool.setuptools.package-data]
+"mlscratch" = ["py.typed"]          # PEP 561 — marks this as a typed package
+
+
+# ──────────────────────────────────────────────────────────────────────────────
+# pytest
+# ──────────────────────────────────────────────────────────────────────────────
 [tool.pytest.ini_options]
-addopts = "-ra --tb=short"
-pythonpath = ["src"]
-testpaths = ["tests"]
+addopts      = "-ra --tb=short --strict-markers"
+pythonpath   = ["src", "."]
+testpaths    = ["tests"]
+filterwarnings = [
+    "ignore::DeprecationWarning",
+    "ignore::PendingDeprecationWarning",
+]
+markers = [
+    "slow: marks tests as slow (deselect with -m 'not slow')",
+    "integration: marks integration tests",
+]
 
-[tool.ruff]
-line-length = 100
-target-version = "py310"
 
-[tool.ruff.lint]
-select = ["E", "F", "W", "I", "UP", "B", "D"]
-ignore = ["D203", "D213"]
-
+# ──────────────────────────────────────────────────────────────────────────────
+# Coverage
+# ──────────────────────────────────────────────────────────────────────────────
 [tool.coverage.run]
-source = ["src/mlscratch"]
+source   = ["src/mlscratch"]
+branch   = true
+omit     = ["src/mlscratch/__main__.py"]
 
 [tool.coverage.report]
-exclude_lines = ["pragma: no cover", "raise NotImplementedError", "if __name__ == .__main__.:"]
+show_missing  = true
+skip_covered  = false
+fail_under    = 70          # raise CI if coverage drops below 70%
+exclude_lines = [
+    "pragma: no cover",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+    "if TYPE_CHECKING:",
+]
+
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Ruff  (linter + formatter, replaces flake8 + isort)
+# ──────────────────────────────────────────────────────────────────────────────
+[tool.ruff]
+line-length    = 100
+target-version = "py310"
+src            = ["src"]
+
+[tool.ruff.lint]
+select = [
+    "E",   # pycodestyle errors
+    "W",   # pycodestyle warnings
+    "F",   # pyflakes
+    "I",   # isort
+    "UP",  # pyupgrade
+    "B",   # flake8-bugbear
+    "C4",  # flake8-comprehensions
+    "N",   # pep8-naming
+]
+ignore = [
+    "E501",  # line length — handled by line-length above
+    "N803",  # argument name should be lowercase (matrices use X, y)
+    "N806",  # variable in function should be lowercase (matrices)
+    "B007",  # loop control variable not used in loop body
+    "B008",  # do not perform function calls in default arguments
+]
+
+[tool.ruff.lint.isort]
+known-first-party = ["mlscratch"]
+
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Black  (auto-formatter)
+# ──────────────────────────────────────────────────────────────────────────────
+[tool.black]
+line-length    = 100
+target-version = ["py310", "py311", "py312"]
+
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Mypy  (static type checker)
+# ──────────────────────────────────────────────────────────────────────────────
+[tool.mypy]
+python_version      = "3.10"
+strict              = false          # enable gradually
+warn_return_any     = true
+warn_unused_ignores = true
+ignore_missing_imports = true        # numpy stubs may not always be present

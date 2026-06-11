@@ -1,0 +1,37 @@
+# requirements.txt
+# Pinned dev dependencies for reproducible local development.
+# For production installs use:  pip install mlscratch
+# For development use:          pip install -e ".[dev]"
+#
+# To regenerate pins:
+#   pip install pip-tools
+#   pip-compile --generate-hashes pyproject.toml --extra dev -o requirements.txt
+
+# ── Core runtime ──────────────────────────────────────────────────────────────
+numpy>=1.23
+
+# ── Testing ───────────────────────────────────────────────────────────────────
+pytest>=7.4
+pytest-cov>=4.1
+pytest-benchmark>=4.0
+hypothesis>=6.100
+
+# ── Code quality ──────────────────────────────────────────────────────────────
+ruff>=0.4
+black>=24.0
+mypy>=1.8
+
+# ── Packaging / release ───────────────────────────────────────────────────────
+build>=1.1
+twine>=5.0
+
+# ── Documentation ─────────────────────────────────────────────────────────────
+mkdocs>=1.6
+mkdocs-material>=9.5
+mkdocstrings[python]>=0.25
+
+# ── Optional: notebooks ───────────────────────────────────────────────────────
+# Uncomment if you want to run the examples/ notebooks locally:
+# jupyter>=1.0
+# matplotlib>=3.7
+# pandas>=2.0

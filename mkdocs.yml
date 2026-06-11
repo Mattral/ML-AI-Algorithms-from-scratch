@@ -1,0 +1,109 @@
+# mkdocs.yml — mlscratch documentation site
+# Build:   mkdocs build
+# Serve:   mkdocs serve
+# Deploy:  mkdocs gh-deploy  (also triggered by CI on main push)
+
+site_name:        mlscratch
+site_description: "Pure-NumPy from-scratch ML/AI/RL/Bayesian algorithms"
+site_author:      Mattral
+site_url:         https://mattral.github.io/ML-AI-Algorithms-from-scratch/
+
+repo_name:        Mattral/ML-AI-Algorithms-from-scratch
+repo_url:         https://github.com/Mattral/ML-AI-Algorithms-from-scratch
+edit_uri:         edit/main/docs/
+
+# ── Theme ─────────────────────────────────────────────────────────────────────
+theme:
+  name:     material
+  language: en
+  palette:
+    - scheme:  default
+      primary: indigo
+      accent:  blue
+      toggle:
+        icon:  material/brightness-7
+        name:  Switch to dark mode
+    - scheme:  slate
+      primary: indigo
+      accent:  blue
+      toggle:
+        icon:  material/brightness-4
+        name:  Switch to light mode
+  features:
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.sections
+    - navigation.top
+    - navigation.footer
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+    - content.code.annotate
+  font:
+    text: Inter
+    code: JetBrains Mono
+
+# ── Plugins ───────────────────────────────────────────────────────────────────
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          paths: [src]
+          options:
+            show_root_heading:       true
+            show_source:             true
+            heading_level:           2
+            members_order:           source
+            docstring_style:         numpy
+            show_signature_annotations: true
+
+# ── Navigation ────────────────────────────────────────────────────────────────
+nav:
+  - Home:              index.md
+  - Quickstart:        quickstart.md
+  - Install:           install.md
+  - Algorithms:
+      - Unsupervised:  algorithms/unsupervised.md
+      - Bayesian:      algorithms/bayesian.md
+      - Reinforcement: algorithms/reinforcement.md
+      - Neural Nets:   algorithms/neural.md
+      - Supervised:    algorithms/supervised.md
+  - API Reference:
+      - mlscratch.unsupervised:   api/unsupervised.md
+      - mlscratch.bayesian:       api/bayesian.md
+      - mlscratch.reinforcement:  api/reinforcement.md
+  - Testing:           testing.md
+  - Contributing:      contributing.md
+  - Changelog:         changelog.md
+  - Roadmap:           roadmap.md
+
+# ── Markdown extensions ───────────────────────────────────────────────────────
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.tabbed:
+      alternate_style: true
+  - attr_list
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.arithmatex:
+      generic: true
+
+extra_javascript:
+  - https://polyfill.io/v3/polyfill.min.js?features=es6
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/Mattral/ML-AI-Algorithms-from-scratch
+  version:
+    provider: mike
