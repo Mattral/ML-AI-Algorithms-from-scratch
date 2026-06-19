@@ -2,6 +2,7 @@
 mlscratch.unsupervised
 ======================
 From-scratch implementations of unsupervised learning algorithms.
+Drop these files alongside the existing kmeans.py in src/mlscratch/unsupervised/.
 
 New algorithms added
 --------------------
