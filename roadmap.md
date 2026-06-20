@@ -6,34 +6,6 @@ Tracks the planned work by priority tier. Items move to `CHANGELOG.md` when ship
 
 ## P0 — Must-have (blocking next release)
 
-- [ ] **Neural Networks module** (`mlscratch.neural`) — port all algorithms from
-  `Neural Networks/` folder into the `src/` package with matching test files:
-  - AutoEncoder
-  - BoltzmannMachine
-  - GenerativeAdversarialNetwork (GAN)
-  - HopfieldNetwork
-  - LSTM (LongShortTermMemory)
-  - MLP Classification + Regression
-  - RadialBasisFunctionNetworks
-  - SelfAttentionMechanism
-  - SimpleCNN
-  - SimpleEncoderDecoder
-  - SimpleRNN
-  - SingleLayerPerceptron (Classification + Regression)
-  - Transformer
-
-- [ ] **Supervised module** (`mlscratch.supervised`) — port all from `Supervised/`:
-  - DecisionTree
-  - KNearestNeighbour
-  - LassoRegression
-  - LinearRegression
-  - LogisticRegression
-  - RandomForest
-  - SVM (Support Vector Machine)
-  - GradientBoosting
-  - AdaBoost
-  - Ridge / ElasticNet
-
 - [ ] **Complete type annotations** across all 30+ source files
 
 - [ ] **PyPI first release** — tag v0.1.0, trigger CI release pipeline
@@ -62,28 +34,12 @@ Tracks the planned work by priority tier. Items move to `CHANGELOG.md` when ship
 - [ ] **`conftest.py` fixtures used everywhere** — audit all test files and
   replace ad-hoc dataset construction with shared fixtures
 
-- [ ] **Examples directory** — one runnable script per algorithm:
-  ```
-  examples/
-    unsupervised_kmeans.py
-    unsupervised_pca.py
-    bayesian_gp.py
-    reinforcement_dqn.py
-    ...
-  ```
-
 ---
 
 ## P2 — Nice-to-have (future)
 
 - [ ] **`mlscratch.datasets`** — tiny built-in toy datasets (no sklearn needed):
   `make_blobs`, `make_moons`, `make_classification`, `load_iris`
-
-- [ ] **`mlscratch.metrics`** — accuracy, precision, recall, F1, ROC-AUC,
-  confusion matrix, MSE, MAE, R² — all pure NumPy
-
-- [ ] **`mlscratch.preprocessing`** — StandardScaler, MinMaxScaler,
-  LabelEncoder, OneHotEncoder, train_test_split
 
 - [ ] **`mlscratch.pipeline`** — sklearn-compatible `Pipeline` and
   `cross_val_score`
@@ -107,9 +63,21 @@ Tracks the planned work by priority tier. Items move to `CHANGELOG.md` when ship
 - [x] `mlscratch.unsupervised` — 9 algorithms, 100+ tests (v0.1.0)
 - [x] `mlscratch.bayesian` — 7 algorithms, 150+ tests (v0.1.0)
 - [x] `mlscratch.reinforcement` — 5 algorithms + utils, 120+ tests (v0.1.0)
+- [x] `mlscratch.neural` — 13 architectures (perceptrons, autoencoders,
+  RNN/LSTM, CNN, attention/Transformer, GAN, Hopfield, RBM, RBF network,
+  complex-valued NN), 372 tests — implemented prior to v0.2.0 but missing
+  from this roadmap/the changelog until now
 - [x] Production `pyproject.toml` with full PyPI metadata
 - [x] GitHub Actions CI (lint → test matrix → build → PyPI release)
 - [x] `CONTRIBUTING.md`, `CHANGELOG.md`, `requirements.txt`
 - [x] `conftest.py` shared test fixtures
 - [x] PEP 561 typed package (`py.typed`)
 - [x] CLI entry point (`python -m mlscratch`)
+- [x] `mlscratch.supervised` — Linear/Ridge/Lasso/ElasticNet/Logistic, KNN,
+  DecisionTree, RandomForest, kernel `SVC` (SMO), GradientBoosting, AdaBoost;
+  220+ tests (v0.2.0)
+- [x] `mlscratch.metrics` — classification + regression metrics, verified
+  against scikit-learn (v0.2.0)
+- [x] `mlscratch.preprocessing` — scalers, encoders, polynomial features,
+  `train_test_split` (v0.2.0)
+- [x] `examples/` directory — runnable end-to-end scripts (v0.2.0)
