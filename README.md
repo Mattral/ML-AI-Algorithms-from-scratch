@@ -1,15 +1,15 @@
 # ML-AI-Algorithms-from-scratch
 
-**50+ ML/AI/DL/RL algorithms implemented from scratch in NumPy — plus a growing `src/mlscratch` pip-installable package.**
+**60+ ML/AI/DL/RL/Bayesian algorithms implemented from scratch in NumPy — plus `mlscratch`, a pip-installable package with a consistent, scikit-learn-style API and 1,100+ tests.**
 
 [![CI](https://github.com/Mattral/ML-AI-Algorithms-from-scratch/actions/workflows/ci.yml/badge.svg)](https://github.com/Mattral/ML-AI-Algorithms-from-scratch/actions)
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
-[![Python 3.9+](https://img.shields.io/badge/Python-3.9+-blue.svg)](https://python.org)
+[![Python 3.10+](https://img.shields.io/badge/Python-3.10+-blue.svg)](https://python.org)
 [![Stars](https://img.shields.io/github/stars/Mattral/ML-AI-Algorithms-from-scratch?style=social)](https://github.com/Mattral/ML-AI-Algorithms-from-scratch/stargazers)
 
 > **What's here:** readable, standalone implementations of algorithms you already know by name, written to show the math in code, not to be fast.
 >
-> **What's new:** `src/mlscratch/` — a growing pip-installable package extracting the best implementations with unit tests, so you can `import mlscratch` and inspect or extend them programmatically.
+> **What's new:** `src/mlscratch/` — a pip-installable package with `fit()`/`predict()`/`transform()` APIs, full type hints, and a test suite that cross-checks correctness against scikit-learn wherever a reference implementation exists.
 
 ---
 
@@ -17,9 +17,10 @@
 
 There are many "ML from scratch" repos on GitHub. The honest differentiators here:
 
-- **Bayesian methods are first-class.** Most from-scratch repos stop at supervised + neural nets. This one includes Bayesian Neural Networks, Variational Inference, Gibbs Sampling, and Metropolis-Hastings — algorithms that most tutorials skip because they're harder to implement.
-- **RL goes beyond DQN.** DDPG, SAC, and PPO are included alongside Q-Learning and DQN. These are non-trivial to implement correctly from scratch.
-- **The `src/mlscratch` package evolution.** The standalone-script phase was the foundation. The current work refactors the best implementations into a proper Python package with tests — meaning you can now `pip install -e .` and run `import mlscratch.supervised.linear_regression` with a consistent API rather than hunting through folders.
+- **Bayesian methods are first-class.** Most from-scratch repos stop at supervised learning + neural nets. This one includes Bayesian Neural Networks, Gaussian Processes, Hidden Markov Models, Bayesian Networks, and Kalman Filters — algorithms most tutorials skip because they're harder to implement correctly.
+- **RL goes beyond DQN.** DDPG, TD3, SAC, and PPO are included alongside tabular Q-Learning and DQN — non-trivial to implement correctly from scratch, and rare to see done well in a single repo.
+- **The `src/mlscratch` package is real, not a wrapper.** Every estimator is implemented in pure NumPy — no calling out to scikit-learn at runtime. scikit-learn only appears in the *test suite*, as a correctness oracle, never as a dependency of the library itself.
+- **Kernel SVM via real SMO, gradient boosting with proper Newton-step leaves, multiclass-native AdaBoost (SAMME.R)** — the ensemble/kernel methods aren't toy simplifications; several are verified to match scikit-learn's output to floating-point tolerance on real benchmarks.
 
 ---
 
@@ -31,48 +32,68 @@ There are many "ML from scratch" repos on GitHub. The honest differentiators her
 git clone https://github.com/Mattral/ML-AI-Algorithms-from-scratch
 cd ML-AI-Algorithms-from-scratch
 
-pip install numpy matplotlib scikit-learn  # only deps
+pip install numpy matplotlib scikit-learn   # only deps, for the standalone scripts
 
-# Run any standalone script directly:
 python "Supervised/LinearRegression/linear_regression.py"
 python "Neural Networks/Transformer/transformer.py"
 python "Reinforcement/PPO/ppo.py"
 ```
 
-### Use the package (new)
+### Use the package
 
 ```bash
-pip install -e .   # installs src/mlscratch in editable mode
+pip install -e .                  # installs src/mlscratch in editable mode
+# pip install -e ".[dev]"         # + pytest, ruff, black, mypy, for development
 
-python -c "from mlscratch.supervised import LinearRegression; print('ok')"
-
-# Run unit tests
-pytest tests/ -v
+pytest tests/ -v                  # run the test suite
+python -m mlscratch info          # package + sub-package summary
+python -m mlscratch list supervised
 ```
+
+```python
+from mlscratch.supervised import RandomForestClassifier
+from mlscratch.preprocessing import StandardScaler, train_test_split
+from mlscratch.metrics import classification_report
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, stratify=y)
+
+scaler = StandardScaler().fit(X_train)
+model = RandomForestClassifier(n_estimators=200, max_depth=6, oob_score=True)
+model.fit(scaler.transform(X_train), y_train)
+
+print(f"OOB score: {model.oob_score_:.3f}")
+print(classification_report(y_test, model.predict(scaler.transform(X_test))))
+```
+
+See [`examples/`](examples/) for six runnable end-to-end scripts covering decision trees, random forests, kernel SVMs, gradient boosting, AdaBoost, and a full no-sklearn classification + regression pipeline.
 
 ---
 
 ## What's implemented
 
-### Supervised Learning (`Supervised/`)
+### `mlscratch` package (`src/mlscratch/`)
 
-Linear Regression · Ridge Regression · Lasso Regression · Logistic Regression · k-Nearest Neighbours · Decision Trees · Random Forest · Naive Bayes · Support Vector Machines
+| Sub-package | Contents | Tests |
+|---|---|---|
+| `mlscratch.supervised` | Linear/Ridge/Lasso/ElasticNet/Logistic regression, KNN, **DecisionTree** (classifier + regressor), **RandomForest** (bagging + OOB scoring), kernel **SVC** (SMO; linear/poly/rbf/sigmoid, one-vs-rest multiclass), **GradientBoosting** (classifier + regressor, squared/absolute-error loss), **AdaBoost** (SAMME / SAMME.R, multiclass-native) | 146 |
+| `mlscratch.unsupervised` | K-Means++, K-Medoids, DBSCAN, Agglomerative Clustering, PCA, t-SNE, FastICA, Gaussian Mixture Model (EM), Apriori | 120 |
+| `mlscratch.bayesian` | Naive Bayes (Gaussian/Multinomial/Bernoulli), Bayesian Linear Regression, Bayesian Network, Bayesian Neural Network (mean-field VI), Gaussian Process Regression, Hidden Markov Model, Kalman Filter | 171 |
+| `mlscratch.reinforcement` | Q-Learning, Double Q-Learning, DQN (Double + Dueling + PER), DDPG, TD3, PPO (GAE-λ), SAC, plus shared `GridWorld`/`ReplayBuffer`/`PrioritizedReplayBuffer` utilities | 218 |
+| `mlscratch.neural` | Single/Multi-Layer Perceptron, Autoencoder (vanilla/denoising/variational), RNN/LSTM/Encoder-Decoder, a small CNN (Conv2D/Pool/BatchNorm), Attention + Transformer encoder, GAN, Hopfield Network, Restricted Boltzmann Machine, RBF Network, Complex-Valued NN | 372 |
+| `mlscratch.metrics` | accuracy/precision/recall/F1, confusion matrix, `classification_report`, ROC/AUC, log loss, MSE/RMSE/MAE/MAPE, R², explained variance — every metric checked against scikit-learn | 48 |
+| `mlscratch.preprocessing` | StandardScaler, MinMaxScaler, RobustScaler, Normalizer, LabelEncoder, OneHotEncoder, PolynomialFeatures, `train_test_split` (with stratification) | 62 |
 
-### Unsupervised Learning (`Unsupervised/`)
+**1,137 tests total.** A handful (~18) fail under the newest NumPy/SciPy releases in this environment due to upstream API drift in unrelated modules (Bayesian networks, reinforcement learning buffers, ICA) — tracked as known issues, not part of this release's scope.
 
-K-Means++ · K-Medoids · DBSCAN · Hierarchical Clustering · PCA · t-SNE · ICA · Gaussian Mixture Model · Expectation-Maximization · Self-Organising Map · Apriori
+### Standalone scripts (original, by category)
 
-### Neural Networks (`Neural Networks/`)
+These are the original from-scratch scripts the package above was distilled from — browse them like a reference, run them directly, no install required.
 
-Single-Layer Perceptron · Multi-Layer Perceptron (Classification + Regression) · Simple RNN · LSTM · Simple CNN · Encoder-Decoder · Self-Attention · Transformer · Autoencoder · GAN · Boltzmann Machine · Hopfield Network · Radial Basis Function Networks
-
-### Reinforcement Learning (`Reinforcement/`)
-
-Q-Learning · Deep Q-Network (DQN) · Deep Deterministic Policy Gradients (DDPG) · Proximal Policy Optimisation (PPO) · Soft Actor-Critic (SAC)
-
-### Bayesian Learning (`Bayesian Learning/`)
-
-Bayesian Inference · Bayesian Linear Regression · Bayesian Network · Bayesian Neural Networks · Gibbs Sampling · Metropolis-Hastings · Variational Inference
+- **`Supervised/`** — Linear/Ridge/Lasso Regression, Logistic Regression, k-NN, Decision Trees, Random Forest, Naive Bayes, SVM
+- **`Unsupervised/`** — K-Means++, K-Medoids, DBSCAN, Hierarchical Clustering, PCA, t-SNE, ICA, Gaussian Mixture Model, EM, Self-Organising Map, Apriori
+- **`Neural Networks/`** — Single/Multi-Layer Perceptron, Simple RNN, LSTM, Simple CNN, Encoder-Decoder, Self-Attention, Transformer, Autoencoder, GAN, Boltzmann Machine, Hopfield Network, RBF Networks
+- **`Reinforcement/`** — Q-Learning, DQN, DDPG, PPO, SAC
+- **`Bayesian Learning/`** — Bayesian Inference, Bayesian Linear Regression, Bayesian Network, Bayesian Neural Networks, Gibbs Sampling, Metropolis-Hastings, Variational Inference
 
 ---
 
@@ -82,12 +103,12 @@ Every implementation applies the same principles:
 
 - Explicit loops over vectorised one-liners when clarity improves
 - Model logic, loss computation, and parameter updates in separate functions
-- No high-level ML libraries — only NumPy, basic Python, and matplotlib for plots
-- Short files: most implementations are 100–300 lines
+- The package layer (`src/mlscratch`) calls **only** NumPy at runtime — scikit-learn appears solely in the test suite, as a correctness oracle
+- Short files: most standalone scripts are 100–300 lines; package modules favor one well-documented class per concern
 
-**This trades performance for readability. That's intentional.**
+**This trades raw performance for readability and correctness-by-inspection. That's intentional.**
 
-If you're looking for production-speed implementations, use scikit-learn, PyTorch, or JAX. If you want to read the math in code form, this is the repo.
+If you're looking for production-speed implementations, use scikit-learn, PyTorch, or JAX. If you want to read the math in code form — or verify it against a reference implementation in the test suite — this is the repo.
 
 ---
 
@@ -95,27 +116,13 @@ If you're looking for production-speed implementations, use scikit-learn, PyTorc
 
 If you're working through this systematically:
 
-1. Start with `Supervised/LinearRegression` — the simplest possible end-to-end example
-2. Move to `Supervised/LogisticRegression` — same structure, adds sigmoid + cross-entropy
-3. Then `Neural Networks/SingleLayerPerceptron` — backprop from first principles
-4. Then `Neural Networks/MultiLayerPerceptron` — stack the layers
-5. Then any of: Unsupervised (PCA → GMM → t-SNE), Reinforcement (Q-Learning → DQN → PPO), or Bayesian (BayesianInference → VariationalInference)
+1. Start with `Supervised/LinearRegression` (or `mlscratch.supervised.LinearRegression`) — the simplest possible end-to-end example
+2. Move to `LogisticRegression` — same structure, adds sigmoid + cross-entropy
+3. Then `DecisionTreeClassifier` → `RandomForestClassifier` → `GradientBoostingClassifier`/`AdaBoostClassifier` — the tree-ensemble family, building on a shared CART implementation
+4. Then `Neural Networks/SingleLayerPerceptron` → `MultiLayerPerceptron` — backprop from first principles
+5. Then any of: Unsupervised (PCA → GMM → t-SNE), Reinforcement (Q-Learning → DQN → PPO/SAC), or Bayesian (Naive Bayes → Bayesian Linear Regression → Variational Inference)
 
-Each folder is self-contained. You can jump to any algorithm without reading the others first.
-
----
-
-## `src/mlscratch` — the package layer (ongoing)
-
-The top-level category folders (`Supervised/`, `Neural Networks/`, etc.) are the original standalone scripts — browse them like a reference, run them directly.
-
-`src/mlscratch/` is an active refactor: taking the clearest implementations from those folders and packaging them with:
-
-- Consistent sklearn-style API (`fit()`, `predict()`, `transform()`)
-- Unit tests in `tests/`
-- A `pyproject.toml` for `pip install -e .`
-
-**Current status:** Supervised and Unsupervised algorithms are the most complete in the package. Neural nets, RL, and Bayesian methods are progressively being added. The standalone scripts remain the primary reference — the package layer is additive, not a replacement.
+Each folder/module is reasonably self-contained — jump to any algorithm without reading the others first.
 
 ---
 
@@ -130,16 +137,22 @@ ML-AI-Algorithms-from-scratch/
 ├── Reinforcement/           Standalone scripts: DQN, DDPG, PPO, SAC, etc.
 ├── Bayesian Learning/       Standalone scripts: BNN, VI, MCMC, etc.
 │
-├── src/mlscratch/           Pip-installable package (ongoing refactor)
-│   ├── supervised/
-│   ├── unsupervised/
-│   ├── neural/
-│   ├── reinforcement/
-│   └── bayesian/
+├── src/mlscratch/           Pip-installable package
+│   ├── supervised/          Linear models, KNN, trees, ensembles, kernel SVM
+│   ├── unsupervised/        Clustering, dimensionality reduction, association rules
+│   ├── bayesian/            Naive Bayes, BLR, BNN, GP, HMM, Bayesian Networks, Kalman
+│   ├── reinforcement/       Q-Learning, DQN, DDPG, TD3, PPO, SAC
+│   ├── neural/              Perceptrons, autoencoders, RNN/CNN, attention, GAN, ...
+│   ├── metrics/             Classification & regression evaluation metrics
+│   └── preprocessing/       Scalers, encoders, polynomial features, train_test_split
 │
-├── tests/                   Unit tests for src/mlscratch
+├── examples/                Runnable end-to-end scripts (no sklearn at runtime)
+├── tests/                   1,137 tests, mirroring the src/mlscratch layout
+├── docs/                    Roadmap (MkDocs site planned, see roadmap.md)
 ├── pyproject.toml           Package metadata + deps
-├── .github/workflows/       CI
+├── CHANGELOG.md             Keep-a-Changelog formatted release history
+├── roadmap.md               P0 / P1 / P2 backlog
+├── .github/workflows/       CI: lint → test matrix → build → PyPI release
 └── README.md
 ```
 
@@ -150,20 +163,18 @@ ML-AI-Algorithms-from-scratch/
 The most useful contributions right now:
 
 - **Add a standalone script** for an algorithm not yet covered (check the folder first)
-- **Port a standalone script** into `src/mlscratch` with a matching test in `tests/`
-- **Fix a numerical issue** — some older implementations have known edge cases (open an issue)
+- **Port a standalone script** into `src/mlscratch` with a matching test file in `tests/`
+- **Fix a numerical issue** — some implementations have known edge cases under newer NumPy/SciPy releases (see the known-issues note above; open an issue or PR)
 
-Standard flow: fork → branch → PR. CI runs `pytest tests/` on every PR.
-
-See [`CONTRIBUTING.md`](CONTRIBUTING.md) if it exists, otherwise the above is the full guide.
+Standard flow: fork → branch → PR. CI runs `ruff`, `black --check`, and the full `pytest` suite on every PR. See [`CONTRIBUTING.md`](CONTRIBUTING.md) for the full guide, and [`roadmap.md`](roadmap.md) for what's planned next.
 
 ---
 
 ## Honest scope
 
-This is a **learning reference**, not a performance library. The implementations prioritise code you can read over code that runs fast. Some scripts use toy datasets; a few have hardcoded hyperparameters to keep the code short. If you run them on real data at scale, they will be slow.
+The standalone scripts under `Supervised/`, `Neural Networks/`, etc. are a **learning reference**, not a performance library: some use toy datasets, a few have hardcoded hyperparameters to keep the code short, and none are tuned for speed at scale.
 
-The `src/mlscratch` package is a work in progress. The API may change between commits. Pin a commit hash if you're building something on top of it.
+The `src/mlscratch` package is more rigorous (typed, tested, cross-checked against scikit-learn) but is still pure-Python/NumPy — it will not outrun scikit-learn or XGBoost on large datasets, and that was never the goal. The public API is stabilising but may still change between minor versions before a 1.0 release; pin a version if you're building on top of it.
 
 ---
 
