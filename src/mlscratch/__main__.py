@@ -11,6 +11,9 @@ Usage
     python -m mlscratch list unsupervised
     python -m mlscratch list bayesian
     python -m mlscratch list reinforcement
+    python -m mlscratch list neural
+    python -m mlscratch list metrics
+    python -m mlscratch list preprocessing
 """
 
 from __future__ import annotations
@@ -40,6 +43,9 @@ def _print_info() -> None:
         "unsupervised":   "mlscratch.unsupervised",
         "bayesian":       "mlscratch.bayesian",
         "reinforcement":  "mlscratch.reinforcement",
+        "neural":         "mlscratch.neural",
+        "metrics":        "mlscratch.metrics",
+        "preprocessing":  "mlscratch.preprocessing",
     }
 
     for name, mod_path in modules.items():
@@ -58,7 +64,7 @@ def _list_algorithms(subpackage: str | None = None) -> None:
     import importlib
 
     targets = (
-        {"supervised", "unsupervised", "bayesian", "reinforcement"}
+        {"supervised", "unsupervised", "bayesian", "reinforcement", "neural", "metrics", "preprocessing"}
         if subpackage is None
         else {subpackage}
     )
@@ -91,7 +97,7 @@ def main(argv: list[str] | None = None) -> int:
     list_parser.add_argument(
         "subpackage",
         nargs="?",
-        choices=["supervised", "unsupervised", "bayesian", "reinforcement"],
+        choices=["supervised", "unsupervised", "bayesian", "reinforcement", "neural", "metrics", "preprocessing"],
         default=None,
         help="Restrict listing to one sub-package",
     )

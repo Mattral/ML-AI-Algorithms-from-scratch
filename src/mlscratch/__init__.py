@@ -10,14 +10,19 @@ mlscratch.supervised        Supervised learning algorithms
 mlscratch.unsupervised      Unsupervised learning algorithms
 mlscratch.bayesian          Bayesian methods
 mlscratch.reinforcement     Reinforcement learning algorithms
-mlscratch.neural            Neural network architectures  (coming soon)
+mlscratch.neural            Neural network architectures
+mlscratch.metrics           Classification & regression evaluation metrics
+mlscratch.preprocessing     Scalers, encoders, polynomial features, train_test_split
 
 Quick-start
 -----------
 >>> from mlscratch.unsupervised import KMeans
->>> from mlscratch.supervised import LinearRegression
+>>> from mlscratch.supervised import LinearRegression, RandomForestClassifier
 >>> from mlscratch.bayesian import GaussianNB
 >>> from mlscratch.reinforcement import QLearning
+>>> from mlscratch.neural import MultiLayerPerceptron
+>>> from mlscratch.metrics import accuracy_score
+>>> from mlscratch.preprocessing import StandardScaler, train_test_split
 
 Install
 -------
