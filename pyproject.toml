@@ -15,7 +15,7 @@ build-backend = "setuptools.build_meta"
 # ──────────────────────────────────────────────────────────────────────────────
 [project]
 name            = "mlscratch"
-version         = "0.1.0"
+version         = "0.2.0"
 description     = "Pure-NumPy from-scratch implementations of ML/AI/RL/Bayesian algorithms — no PyTorch, no TensorFlow, no scikit-learn."
 readme          = "README.md"
 requires-python = ">=3.10"
@@ -58,6 +58,7 @@ dev = [
     "pytest-cov>=4",
     "pytest-benchmark>=4",
     "hypothesis>=6",          # property-based testing
+    "scikit-learn>=1.3",      # correctness oracle used throughout tests/ — never imported by src/
     # Code quality
     "ruff>=0.4",
     "black>=24",
