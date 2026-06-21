@@ -52,6 +52,8 @@ from dataclasses import dataclass
 import numpy as np
 from numpy.typing import ArrayLike, NDArray
 
+from ._validation import validate_sample_weight, validate_x, validate_xy
+
 FloatArray = NDArray[np.float64]
 IntArray = NDArray[np.int64]
 
@@ -59,7 +61,7 @@ _EPS = 1e-12
 
 
 # ──────────────────────────────────────────────────────────────────────────
-# Shared node / validation helpers
+# Shared node / tree-walking helpers
 # ──────────────────────────────────────────────────────────────────────────
 
 
@@ -85,32 +87,6 @@ class _Node:
     @property
     def is_leaf(self) -> bool:
         return self.feature_index is None
-
-
-def _validate_x(X: ArrayLike) -> FloatArray:
-    X_arr = np.asarray(X, dtype=np.float64)
-    if X_arr.ndim != 2:
-        raise ValueError("X must be a 2D array of shape (n_samples, n_features).")
-    return X_arr
-
-
-def _validate_xy(X: ArrayLike, y: ArrayLike) -> tuple[FloatArray, NDArray]:
-    X_arr = _validate_x(X)
-    y_arr = np.asarray(y).flatten()
-    if X_arr.shape[0] != y_arr.shape[0]:
-        raise ValueError(f"X has {X_arr.shape[0]} samples but y has {y_arr.shape[0]}.")
-    return X_arr, y_arr
-
-
-def _validate_sample_weight(sample_weight: ArrayLike | None, n_samples: int) -> FloatArray:
-    if sample_weight is None:
-        return np.ones(n_samples, dtype=np.float64)
-    w = np.asarray(sample_weight, dtype=np.float64).flatten()
-    if w.shape[0] != n_samples:
-        raise ValueError(f"sample_weight has {w.shape[0]} entries but X has {n_samples} samples.")
-    if np.any(w < 0):
-        raise ValueError("sample_weight entries must be non-negative.")
-    return w
 
 
 def _apply(root: _Node, X: FloatArray) -> list[_Node]:
@@ -204,12 +180,12 @@ class DecisionTreeClassifier:
         self, X: ArrayLike, y: ArrayLike, sample_weight: ArrayLike | None = None
     ) -> DecisionTreeClassifier:
         """Grow the decision tree from training data."""
-        X_arr, y_raw = _validate_xy(X, y)
+        X_arr, y_raw = validate_xy(X, y)
         self.classes_, y_idx = np.unique(y_raw, return_inverse=True)
         y_idx = y_idx.astype(np.int64)
         self.n_classes_ = int(self.classes_.size)
         self.n_features_in_ = X_arr.shape[1]
-        w = _validate_sample_weight(sample_weight, X_arr.shape[0])
+        w = validate_sample_weight(sample_weight, X_arr.shape[0])
 
         importances = np.zeros(self.n_features_in_, dtype=np.float64)
         self.tree_ = self._grow(X_arr, y_idx, w, depth=0, importances=importances)
@@ -221,7 +197,7 @@ class DecisionTreeClassifier:
         """Return class-probability estimates, columns ordered as ``classes_``."""
         if self.tree_ is None:
             raise RuntimeError("Call fit() before predict_proba().")
-        X_arr = _validate_x(X)
+        X_arr = validate_x(X)
         leaves = _apply(self.tree_, X_arr)
         return np.vstack([leaf.value for leaf in leaves])
 
@@ -232,8 +208,8 @@ class DecisionTreeClassifier:
 
     def score(self, X: ArrayLike, y: ArrayLike, sample_weight: ArrayLike | None = None) -> float:
         """Return (optionally weighted) classification accuracy."""
-        X_arr, y_arr = _validate_xy(X, y)
-        w = _validate_sample_weight(sample_weight, X_arr.shape[0])
+        X_arr, y_arr = validate_xy(X, y)
+        w = validate_sample_weight(sample_weight, X_arr.shape[0])
         preds = self.predict(X_arr)
         return float(np.average(preds == y_arr, weights=w))
 
@@ -241,7 +217,7 @@ class DecisionTreeClassifier:
         """Return the terminal leaf node each row of X is routed to."""
         if self.tree_ is None:
             raise RuntimeError("Call fit() before apply().")
-        return _apply(self.tree_, _validate_x(X))
+        return _apply(self.tree_, validate_x(X))
 
     # -- tree construction ----------------------------------------------------
 
@@ -401,10 +377,10 @@ class DecisionTreeRegressor:
         self, X: ArrayLike, y: ArrayLike, sample_weight: ArrayLike | None = None
     ) -> DecisionTreeRegressor:
         """Grow the regression tree from training data."""
-        X_arr, y_arr = _validate_xy(X, y)
+        X_arr, y_arr = validate_xy(X, y)
         y_arr = y_arr.astype(np.float64)
         self.n_features_in_ = X_arr.shape[1]
-        w = _validate_sample_weight(sample_weight, X_arr.shape[0])
+        w = validate_sample_weight(sample_weight, X_arr.shape[0])
 
         importances = np.zeros(self.n_features_in_, dtype=np.float64)
         self.tree_ = self._grow(X_arr, y_arr, w, depth=0, importances=importances)
@@ -421,8 +397,8 @@ class DecisionTreeRegressor:
 
     def score(self, X: ArrayLike, y: ArrayLike, sample_weight: ArrayLike | None = None) -> float:
         """Return the coefficient of determination R^2 of the prediction."""
-        X_arr, y_arr = _validate_xy(X, y)
-        w = _validate_sample_weight(sample_weight, X_arr.shape[0])
+        X_arr, y_arr = validate_xy(X, y)
+        w = validate_sample_weight(sample_weight, X_arr.shape[0])
         preds = self.predict(X_arr)
         y_mean = float(np.average(y_arr, weights=w))
         ss_res = float(np.sum(w * (y_arr - preds) ** 2))
@@ -433,7 +409,7 @@ class DecisionTreeRegressor:
         """Return the terminal leaf node each row of X is routed to."""
         if self.tree_ is None:
             raise RuntimeError("Call fit() before apply().")
-        return _apply(self.tree_, _validate_x(X))
+        return _apply(self.tree_, validate_x(X))
 
     # -- tree construction ----------------------------------------------------
 
