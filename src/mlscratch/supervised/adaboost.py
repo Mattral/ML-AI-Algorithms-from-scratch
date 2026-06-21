@@ -47,27 +47,13 @@ from __future__ import annotations
 import numpy as np
 from numpy.typing import ArrayLike, NDArray
 
+from ._validation import validate_x, validate_xy
 from .decision_tree import DecisionTreeClassifier
 
 FloatArray = NDArray[np.float64]
 IntArray = NDArray[np.int64]
 
 _EPS = 1e-10
-
-
-def _validate_x(X: ArrayLike) -> FloatArray:
-    X_arr = np.asarray(X, dtype=np.float64)
-    if X_arr.ndim != 2:
-        raise ValueError("X must be a 2D array of shape (n_samples, n_features).")
-    return X_arr
-
-
-def _validate_xy(X: ArrayLike, y: ArrayLike) -> tuple[FloatArray, NDArray]:
-    X_arr = _validate_x(X)
-    y_arr = np.asarray(y).flatten()
-    if X_arr.shape[0] != y_arr.shape[0]:
-        raise ValueError(f"X has {X_arr.shape[0]} samples but y has {y_arr.shape[0]}.")
-    return X_arr, y_arr
 
 
 class AdaBoostClassifier:
@@ -125,7 +111,7 @@ class AdaBoostClassifier:
     # -- public API -----------------------------------------------------------
 
     def fit(self, X: ArrayLike, y: ArrayLike) -> AdaBoostClassifier:
-        X_arr, y_raw = _validate_xy(X, y)
+        X_arr, y_raw = validate_xy(X, y)
         self.classes_, y_idx = np.unique(y_raw, return_inverse=True)
         y_idx = y_idx.astype(np.int64)
         n_classes = self.classes_.size
@@ -207,7 +193,7 @@ class AdaBoostClassifier:
         """Return the per-class ensemble score, shape ``(n_samples, n_classes)``."""
         if not self.estimators_:
             raise RuntimeError("Call fit() before decision_function().")
-        X_arr = _validate_x(X)
+        X_arr = validate_x(X)
         n_classes = self.classes_.size
         scores = np.zeros((X_arr.shape[0], n_classes), dtype=np.float64)
 
@@ -238,7 +224,7 @@ class AdaBoostClassifier:
         """Yield the ensemble's predicted labels after each boosting round."""
         if not self.estimators_:
             raise RuntimeError("Call fit() before staged_predict().")
-        X_arr = _validate_x(X)
+        X_arr = validate_x(X)
         n_classes = self.classes_.size
         cum_scores = np.zeros((X_arr.shape[0], n_classes), dtype=np.float64)
         for i, stump in enumerate(self.estimators_):
@@ -252,7 +238,7 @@ class AdaBoostClassifier:
             yield self.classes_[np.argmax(cum_scores, axis=1)]
 
     def score(self, X: ArrayLike, y: ArrayLike) -> float:
-        X_arr, y_arr = _validate_xy(X, y)
+        X_arr, y_arr = validate_xy(X, y)
         return float(np.mean(self.predict(X_arr) == y_arr))
 
     # -- internals --------------------------------------------------------------
