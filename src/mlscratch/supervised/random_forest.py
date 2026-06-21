@@ -42,27 +42,13 @@ from __future__ import annotations
 import numpy as np
 from numpy.typing import ArrayLike, NDArray
 
+from ._validation import validate_x, validate_xy
 from .decision_tree import DecisionTreeClassifier, DecisionTreeRegressor
 
 FloatArray = NDArray[np.float64]
 IntArray = NDArray[np.int64]
 
 _EPS = 1e-12
-
-
-def _validate_x(X: ArrayLike) -> FloatArray:
-    X_arr = np.asarray(X, dtype=np.float64)
-    if X_arr.ndim != 2:
-        raise ValueError("X must be a 2D array of shape (n_samples, n_features).")
-    return X_arr
-
-
-def _validate_xy(X: ArrayLike, y: ArrayLike) -> tuple[FloatArray, NDArray]:
-    X_arr = _validate_x(X)
-    y_arr = np.asarray(y).flatten()
-    if X_arr.shape[0] != y_arr.shape[0]:
-        raise ValueError(f"X has {X_arr.shape[0]} samples but y has {y_arr.shape[0]}.")
-    return X_arr, y_arr
 
 
 def _resolve_max_features(max_features: int | float | str | None, n_features: int) -> int:
@@ -148,7 +134,7 @@ class RandomForestClassifier:
         self.oob_score_: float | None = None
 
     def fit(self, X: ArrayLike, y: ArrayLike) -> RandomForestClassifier:
-        X_arr, y_raw = _validate_xy(X, y)
+        X_arr, y_raw = validate_xy(X, y)
         self.classes_, y_idx = np.unique(y_raw, return_inverse=True)
         y_idx = y_idx.astype(np.int64)
         n_samples, n_features = X_arr.shape
@@ -204,7 +190,7 @@ class RandomForestClassifier:
     def predict_proba(self, X: ArrayLike) -> FloatArray:
         if not self.estimators_:
             raise RuntimeError("Call fit() before predict_proba().")
-        X_arr = _validate_x(X)
+        X_arr = validate_x(X)
         n_classes = self.classes_.size
         proba = np.zeros((X_arr.shape[0], n_classes), dtype=np.float64)
         for tree, feat_idx in self.estimators_:
@@ -218,7 +204,7 @@ class RandomForestClassifier:
         return self.classes_[np.argmax(proba, axis=1)]
 
     def score(self, X: ArrayLike, y: ArrayLike) -> float:
-        X_arr, y_arr = _validate_xy(X, y)
+        X_arr, y_arr = validate_xy(X, y)
         return float(np.mean(self.predict(X_arr) == y_arr))
 
 
@@ -266,7 +252,7 @@ class RandomForestRegressor:
         self.oob_score_: float | None = None
 
     def fit(self, X: ArrayLike, y: ArrayLike) -> RandomForestRegressor:
-        X_arr, y_arr = _validate_xy(X, y)
+        X_arr, y_arr = validate_xy(X, y)
         y_arr = y_arr.astype(np.float64)
         n_samples, n_features = X_arr.shape
         self.n_features_in_ = n_features
@@ -321,14 +307,14 @@ class RandomForestRegressor:
     def predict(self, X: ArrayLike) -> FloatArray:
         if not self.estimators_:
             raise RuntimeError("Call fit() before predict().")
-        X_arr = _validate_x(X)
+        X_arr = validate_x(X)
         preds = np.zeros(X_arr.shape[0], dtype=np.float64)
         for tree, feat_idx in self.estimators_:
             preds += tree.predict(X_arr[:, feat_idx])
         return preds / len(self.estimators_)
 
     def score(self, X: ArrayLike, y: ArrayLike) -> float:
-        X_arr, y_arr = _validate_xy(X, y)
+        X_arr, y_arr = validate_xy(X, y)
         preds = self.predict(X_arr)
         ss_res = np.sum((y_arr - preds) ** 2)
         ss_tot = np.sum((y_arr - y_arr.mean()) ** 2)
