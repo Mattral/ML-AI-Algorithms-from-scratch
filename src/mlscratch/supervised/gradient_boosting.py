@@ -61,6 +61,7 @@ from __future__ import annotations
 import numpy as np
 from numpy.typing import ArrayLike, NDArray
 
+from ._validation import validate_x, validate_xy
 from .decision_tree import DecisionTreeRegressor, group_by_leaf
 
 FloatArray = NDArray[np.float64]
@@ -72,21 +73,6 @@ _EPS = 1e-12
 # ──────────────────────────────────────────────────────────────────────────
 # Helpers
 # ──────────────────────────────────────────────────────────────────────────
-
-
-def _validate_x(X: ArrayLike) -> FloatArray:
-    X_arr = np.asarray(X, dtype=np.float64)
-    if X_arr.ndim != 2:
-        raise ValueError("X must be a 2D array of shape (n_samples, n_features).")
-    return X_arr
-
-
-def _validate_xy(X: ArrayLike, y: ArrayLike) -> tuple[FloatArray, NDArray]:
-    X_arr = _validate_x(X)
-    y_arr = np.asarray(y).flatten()
-    if X_arr.shape[0] != y_arr.shape[0]:
-        raise ValueError(f"X has {X_arr.shape[0]} samples but y has {y_arr.shape[0]}.")
-    return X_arr, y_arr
 
 
 def _sigmoid(z: FloatArray) -> FloatArray:
@@ -184,7 +170,7 @@ class GradientBoostingRegressor:
         self.n_features_in_: int | None = None
 
     def fit(self, X: ArrayLike, y: ArrayLike) -> GradientBoostingRegressor:
-        X_arr, y_arr = _validate_xy(X, y)
+        X_arr, y_arr = validate_xy(X, y)
         y_arr = y_arr.astype(np.float64)
         n = X_arr.shape[0]
         self.n_features_in_ = X_arr.shape[1]
@@ -226,7 +212,7 @@ class GradientBoostingRegressor:
     def predict(self, X: ArrayLike) -> FloatArray:
         if not self.estimators_:
             raise RuntimeError("Call fit() before predict().")
-        X_arr = _validate_x(X)
+        X_arr = validate_x(X)
         F = np.full(X_arr.shape[0], self.init_, dtype=np.float64)
         for tree in self.estimators_:
             F += self.learning_rate * tree.predict(X_arr)
@@ -236,7 +222,7 @@ class GradientBoostingRegressor:
         """Yield the running prediction after each boosting stage."""
         if not self.estimators_:
             raise RuntimeError("Call fit() before staged_predict().")
-        X_arr = _validate_x(X)
+        X_arr = validate_x(X)
         F = np.full(X_arr.shape[0], self.init_, dtype=np.float64)
         for tree in self.estimators_:
             F = F + self.learning_rate * tree.predict(X_arr)
@@ -244,7 +230,7 @@ class GradientBoostingRegressor:
 
     def score(self, X: ArrayLike, y: ArrayLike) -> float:
         """Return the coefficient of determination R^2."""
-        X_arr, y_arr = _validate_xy(X, y)
+        X_arr, y_arr = validate_xy(X, y)
         preds = self.predict(X_arr)
         ss_res = np.sum((y_arr - preds) ** 2)
         ss_tot = np.sum((y_arr - y_arr.mean()) ** 2)
@@ -296,7 +282,7 @@ class GradientBoostingClassifier:
         self.n_features_in_: int | None = None
 
     def fit(self, X: ArrayLike, y: ArrayLike) -> GradientBoostingClassifier:
-        X_arr, y_raw = _validate_xy(X, y)
+        X_arr, y_raw = validate_xy(X, y)
         self.classes_ = np.unique(y_raw)
         if self.classes_.size != 2:
             raise ValueError("GradientBoostingClassifier supports only binary classification.")
@@ -348,7 +334,7 @@ class GradientBoostingClassifier:
         """Return the raw (pre-sigmoid) ensemble score."""
         if not self.estimators_:
             raise RuntimeError("Call fit() before decision_function().")
-        X_arr = _validate_x(X)
+        X_arr = validate_x(X)
         F = np.full(X_arr.shape[0], self.init_, dtype=np.float64)
         for tree in self.estimators_:
             F += self.learning_rate * tree.predict(X_arr)
@@ -364,5 +350,5 @@ class GradientBoostingClassifier:
         return self.classes_[np.argmax(proba, axis=1)]
 
     def score(self, X: ArrayLike, y: ArrayLike) -> float:
-        X_arr, y_arr = _validate_xy(X, y)
+        X_arr, y_arr = validate_xy(X, y)
         return float(np.mean(self.predict(X_arr) == y_arr))
