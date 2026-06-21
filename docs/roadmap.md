@@ -75,7 +75,7 @@ Tracks the planned work by priority tier. Items move to `CHANGELOG.md` when ship
 - [x] CLI entry point (`python -m mlscratch`)
 - [x] `mlscratch.supervised` — Linear/Ridge/Lasso/ElasticNet/Logistic, KNN,
   DecisionTree, RandomForest, kernel `SVC` (SMO), GradientBoosting, AdaBoost;
-  220+ tests (v0.2.0)
+  236+ tests (v0.2.0)
 - [x] `mlscratch.metrics` — classification + regression metrics, verified
   against scikit-learn (v0.2.0)
 - [x] `mlscratch.preprocessing` — scalers, encoders, polynomial features,
