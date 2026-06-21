@@ -75,7 +75,7 @@ See [`examples/`](examples/) for six runnable end-to-end scripts covering decisi
 
 | Sub-package | Contents | Tests |
 |---|---|---|
-| `mlscratch.supervised` | Linear/Ridge/Lasso/ElasticNet/Logistic regression, KNN, **DecisionTree** (classifier + regressor), **RandomForest** (bagging + OOB scoring), kernel **SVC** (SMO; linear/poly/rbf/sigmoid, one-vs-rest multiclass), **GradientBoosting** (classifier + regressor, squared/absolute-error loss), **AdaBoost** (SAMME / SAMME.R, multiclass-native) | 146 |
+| `mlscratch.supervised` | Linear/Ridge/Lasso/ElasticNet/Logistic regression, KNN, **DecisionTree** (classifier + regressor), **RandomForest** (bagging + OOB scoring), kernel **SVC** (SMO; linear/poly/rbf/sigmoid, one-vs-rest multiclass), **GradientBoosting** (classifier + regressor, squared/absolute-error loss), **AdaBoost** (SAMME / SAMME.R, multiclass-native) | 162 |
 | `mlscratch.unsupervised` | K-Means++, K-Medoids, DBSCAN, Agglomerative Clustering, PCA, t-SNE, FastICA, Gaussian Mixture Model (EM), Apriori | 120 |
 | `mlscratch.bayesian` | Naive Bayes (Gaussian/Multinomial/Bernoulli), Bayesian Linear Regression, Bayesian Network, Bayesian Neural Network (mean-field VI), Gaussian Process Regression, Hidden Markov Model, Kalman Filter | 171 |
 | `mlscratch.reinforcement` | Q-Learning, Double Q-Learning, DQN (Double + Dueling + PER), DDPG, TD3, PPO (GAE-λ), SAC, plus shared `GridWorld`/`ReplayBuffer`/`PrioritizedReplayBuffer` utilities | 218 |
@@ -83,7 +83,7 @@ See [`examples/`](examples/) for six runnable end-to-end scripts covering decisi
 | `mlscratch.metrics` | accuracy/precision/recall/F1, confusion matrix, `classification_report`, ROC/AUC, log loss, MSE/RMSE/MAE/MAPE, R², explained variance — every metric checked against scikit-learn | 48 |
 | `mlscratch.preprocessing` | StandardScaler, MinMaxScaler, RobustScaler, Normalizer, LabelEncoder, OneHotEncoder, PolynomialFeatures, `train_test_split` (with stratification) | 62 |
 
-**1,137 tests total.** A handful (~18) fail under the newest NumPy/SciPy releases in this environment due to upstream API drift in unrelated modules (Bayesian networks, reinforcement learning buffers, ICA) — tracked as known issues, not part of this release's scope.
+**1,153 tests total.** A handful (~18) fail under the newest NumPy/SciPy releases in this environment due to upstream API drift in unrelated modules (Bayesian networks, reinforcement learning buffers, ICA) — tracked as known issues, not part of this release's scope.
 
 ### Standalone scripts (original, by category)
 
@@ -147,7 +147,7 @@ ML-AI-Algorithms-from-scratch/
 │   └── preprocessing/       Scalers, encoders, polynomial features, train_test_split
 │
 ├── examples/                Runnable end-to-end scripts (no sklearn at runtime)
-├── tests/                   1,137 tests, mirroring the src/mlscratch layout
+├── tests/                   1,153 tests, mirroring the src/mlscratch layout
 ├── docs/                    Roadmap (MkDocs site planned, see roadmap.md)
 ├── pyproject.toml           Package metadata + deps
 ├── CHANGELOG.md             Keep-a-Changelog formatted release history

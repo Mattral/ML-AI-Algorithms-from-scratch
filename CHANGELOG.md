@@ -31,6 +31,16 @@ Version numbers follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html
   (missing modules, stale "in progress" framing for code that already
   shipped, an inaccurate algorithm list)
 
+### Changed
+- `mlscratch.supervised` — extracted the input-validation logic that had
+  been copy-pasted near-verbatim across `decision_tree.py`, `random_forest.py`,
+  `svm.py`, `gradient_boosting.py`, and `adaboost.py` into one shared
+  internal module, `mlscratch.supervised._validation`. Every estimator now
+  raises identically-worded errors for the same class of mistake by
+  construction rather than by convention; covered directly by
+  `tests/supervised/test_validation.py` in addition to each estimator's
+  existing edge-case tests. Pure refactor — no behavioural change.
+
 ### Added
 
 #### `mlscratch.supervised` — tree-based & kernel models
@@ -87,7 +97,7 @@ Version numbers follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html
   shipped) and the new `mlscratch.metrics` / `mlscratch.preprocessing`
 
 ### Tests
-- 220+ new tests across `tests/supervised/`, `tests/metrics/`,
+- 236+ new tests across `tests/supervised/`, `tests/metrics/`,
   `tests/preprocessing/`, continuing the Basic API · Correctness · Edge
   Cases structure, with correctness assertions cross-checked against
   scikit-learn wherever an equivalent reference implementation exists
