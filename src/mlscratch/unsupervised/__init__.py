@@ -16,6 +16,7 @@ FastICA                 – Independent Component Analysis (FastICA)
 TSNE                    – t-SNE dimensionality reduction
 """
 
+from .kmeans import KMeans                                          # noqa: F401
 from .dbscan import DBSCAN                                          # noqa: F401
 from .pca import PCA                                                # noqa: F401
 from .gmm import GaussianMixtureModel                               # noqa: F401
@@ -26,6 +27,7 @@ from .ica import FastICA                                            # noqa: F401
 from .tsne import TSNE                                              # noqa: F401
 
 __all__ = [
+    "KMeans",
     "DBSCAN",
     "PCA",
     "GaussianMixtureModel",

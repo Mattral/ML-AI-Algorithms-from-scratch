@@ -1,9 +1,10 @@
 # ML-AI-Algorithms-from-scratch
 
-**60+ ML/AI/DL/RL/Bayesian algorithms implemented from scratch in NumPy — plus `mlscratch`, a pip-installable package with a consistent, scikit-learn-style API and 1,100+ tests.**
+**60+ ML/AI/DL/RL/Bayesian algorithms implemented from scratch in NumPy — plus `mlscratch`, a pip-installable package (`pip install scratchkit`) with a consistent, scikit-learn-style API and 1,100+ tests.**
 
 [![CI](https://github.com/Mattral/ML-AI-Algorithms-from-scratch/actions/workflows/ci.yml/badge.svg)](https://github.com/Mattral/ML-AI-Algorithms-from-scratch/actions)
-[![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
+[![PyPI](https://img.shields.io/pypi/v/scratchkit.svg)](https://pypi.org/project/scratchkit/)
+[![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://github.com/Mattral/ML-AI-Algorithms-from-scratch/blob/main/LICENSE)
 [![Python 3.10+](https://img.shields.io/badge/Python-3.10+-blue.svg)](https://python.org)
 [![Stars](https://img.shields.io/github/stars/Mattral/ML-AI-Algorithms-from-scratch?style=social)](https://github.com/Mattral/ML-AI-Algorithms-from-scratch/stargazers)
 
@@ -42,6 +43,11 @@ python "Reinforcement/PPO/ppo.py"
 ### Use the package
 
 ```bash
+pip install scratchkit                # from PyPI — the import name is still `mlscratch`
+```
+
+```bash
+# — or, for local development —
 pip install -e .                  # installs src/mlscratch in editable mode
 # pip install -e ".[dev]"         # + pytest, ruff, black, mypy, for development
 
@@ -65,7 +71,7 @@ print(f"OOB score: {model.oob_score_:.3f}")
 print(classification_report(y_test, model.predict(scaler.transform(X_test))))
 ```
 
-See [`examples/`](examples/) for six runnable end-to-end scripts covering decision trees, random forests, kernel SVMs, gradient boosting, AdaBoost, and a full no-sklearn classification + regression pipeline.
+See [`examples/`](https://github.com/Mattral/ML-AI-Algorithms-from-scratch/tree/main/examples) for six runnable end-to-end scripts covering decision trees, random forests, kernel SVMs, gradient boosting, AdaBoost, and a full no-sklearn classification + regression pipeline.
 
 ---
 
@@ -166,7 +172,7 @@ The most useful contributions right now:
 - **Port a standalone script** into `src/mlscratch` with a matching test file in `tests/`
 - **Fix a numerical issue** — some implementations have known edge cases under newer NumPy/SciPy releases (see the known-issues note above; open an issue or PR)
 
-Standard flow: fork → branch → PR. CI runs `ruff`, `black --check`, and the full `pytest` suite on every PR. See [`CONTRIBUTING.md`](CONTRIBUTING.md) for the full guide, and [`roadmap.md`](roadmap.md) for what's planned next.
+Standard flow: fork → branch → PR. CI runs `ruff`, `black --check`, and the full `pytest` suite on every PR. See [`CONTRIBUTING.md`](https://github.com/Mattral/ML-AI-Algorithms-from-scratch/blob/main/CONTRIBUTING.md) for the full guide, and [`roadmap.md`](https://github.com/Mattral/ML-AI-Algorithms-from-scratch/blob/main/roadmap.md) for what's planned next.
 
 ---
 
@@ -180,4 +186,4 @@ The `src/mlscratch` package is more rigorous (typed, tested, cross-checked again
 
 ## License
 
-Apache 2.0 — see [LICENSE](LICENSE).
+Apache 2.0 — see [LICENSE](https://github.com/Mattral/ML-AI-Algorithms-from-scratch/blob/main/LICENSE).

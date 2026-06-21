@@ -31,7 +31,7 @@ from .gaussian_process import (                                    # noqa: F401
     PeriodicKernel,
 )
 from .hmm import HiddenMarkovModel                                 # noqa: F401
-from .bayesian_nn import BayesianNeuralNetwork                     # noqa: F401
+from .bayesian_nn import BayesianNeuralNetwork, BayesianLayer      # noqa: F401
 from .bayesian_network import BayesianNetwork                      # noqa: F401
 from .kalman_filter import KalmanFilter                            # noqa: F401
 
@@ -47,6 +47,7 @@ __all__ = [
     "PeriodicKernel",
     "HiddenMarkovModel",
     "BayesianNeuralNetwork",
+    "BayesianLayer",
     "BayesianNetwork",
     "KalmanFilter",
 ]

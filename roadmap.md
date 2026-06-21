@@ -8,7 +8,7 @@ Tracks the planned work by priority tier. Items move to `CHANGELOG.md` when ship
 
 - [ ] **Complete type annotations** across all 30+ source files
 
-- [ ] **PyPI first release** — tag v0.1.0, trigger CI release pipeline
+- [ ] **PyPI first release** — published as `scratchkit` (the `mlscratch` name was already taken on PyPI by an unrelated project); tag a release, trigger the CI release pipeline
 
 ---
 

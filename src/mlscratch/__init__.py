@@ -26,10 +26,10 @@ Quick-start
 
 Install
 -------
-    pip install mlscratch              # core (numpy only)
-    pip install "mlscratch[dev]"       # + pytest, ruff, black, mypy
-    pip install "mlscratch[docs]"      # + mkdocs
-    pip install "mlscratch[all]"       # everything
+    pip install scratchkit              # core (numpy only); import name is "mlscratch"
+    pip install "scratchkit[dev]"       # + pytest, ruff, black, mypy
+    pip install "scratchkit[docs]"      # + mkdocs
+    pip install "scratchkit[all]"       # everything
 
 Links
 -----
@@ -41,7 +41,11 @@ Changelog   : https://github.com/Mattral/ML-AI-Algorithms-from-scratch/blob/main
 from importlib.metadata import PackageNotFoundError, version
 
 try:
-    __version__: str = version("mlscratch")
+    # The importable package is "mlscratch", but the PyPI distribution it
+    # ships under is "scratchkit" (the name "mlscratch" was already taken
+    # by an unrelated project) — look up metadata under the distribution
+    # name, the same way `import bs4` resolves "beautifulsoup4" metadata.
+    __version__: str = version("scratchkit")
 except PackageNotFoundError:
     # Package is not installed (e.g. running directly from source tree)
     __version__ = "0.0.0+dev"
