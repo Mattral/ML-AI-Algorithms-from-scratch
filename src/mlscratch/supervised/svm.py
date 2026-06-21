@@ -51,31 +51,13 @@ from collections.abc import Callable
 import numpy as np
 from numpy.typing import ArrayLike, NDArray
 
+from ._validation import validate_x, validate_xy
+
 FloatArray = NDArray[np.float64]
 IntArray = NDArray[np.int64]
 
 _EPS = 1e-12
 _MAX_SWEEPS = 2000
-
-
-# ──────────────────────────────────────────────────────────────────────────
-# Validation
-# ──────────────────────────────────────────────────────────────────────────
-
-
-def _validate_x(X: ArrayLike) -> FloatArray:
-    X_arr = np.asarray(X, dtype=np.float64)
-    if X_arr.ndim != 2:
-        raise ValueError("X must be a 2D array of shape (n_samples, n_features).")
-    return X_arr
-
-
-def _validate_xy(X: ArrayLike, y: ArrayLike) -> tuple[FloatArray, NDArray]:
-    X_arr = _validate_x(X)
-    y_arr = np.asarray(y).flatten()
-    if X_arr.shape[0] != y_arr.shape[0]:
-        raise ValueError(f"X has {X_arr.shape[0]} samples but y has {y_arr.shape[0]}.")
-    return X_arr, y_arr
 
 
 # ──────────────────────────────────────────────────────────────────────────
@@ -222,7 +204,7 @@ class SVC:
 
     def fit(self, X: ArrayLike, y: ArrayLike) -> SVC:
         """Fit the SVM. Dispatches to one-vs-rest if >2 classes are present."""
-        X_arr, y_arr = _validate_xy(X, y)
+        X_arr, y_arr = validate_xy(X, y)
         self.classes_ = np.unique(y_arr)
         self.n_features_in_ = X_arr.shape[1]
         self._gamma_value = self._resolve_gamma(X_arr)
@@ -262,7 +244,7 @@ class SVC:
         """
         if not self._fitted:
             raise RuntimeError("Call fit() before decision_function().")
-        X_arr = _validate_x(X)
+        X_arr = validate_x(X)
         if self.multiclass_:
             return np.column_stack([est.decision_function(X_arr) for est in self._ovr_estimators_])
         K = self._kernel_fn(self.support_vectors_, X_arr)
@@ -279,7 +261,7 @@ class SVC:
 
     def score(self, X: ArrayLike, y: ArrayLike) -> float:
         """Return classification accuracy."""
-        X_arr, y_arr = _validate_xy(X, y)
+        X_arr, y_arr = validate_xy(X, y)
         return float(np.mean(self.predict(X_arr) == y_arr))
 
     # -- core binary SMO solver -------------------------------------------------
