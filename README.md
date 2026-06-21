@@ -2,7 +2,6 @@
 
 **60+ ML/AI/DL/RL/Bayesian algorithms implemented from scratch in NumPy — plus `mlscratch`, a pip-installable package (`pip install scratchkit`) with a consistent, scikit-learn-style API and 1,100+ tests.**
 
-[![CI](https://github.com/Mattral/ML-AI-Algorithms-from-scratch/actions/workflows/ci.yml/badge.svg)](https://github.com/Mattral/ML-AI-Algorithms-from-scratch/actions)
 [![PyPI](https://img.shields.io/pypi/v/scratchkit.svg)](https://pypi.org/project/scratchkit/)
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://github.com/Mattral/ML-AI-Algorithms-from-scratch/blob/main/LICENSE)
 [![Python 3.10+](https://img.shields.io/badge/Python-3.10+-blue.svg)](https://python.org)
