@@ -32,6 +32,18 @@ Version numbers follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html
   shipped, an inaccurate algorithm list)
 
 ### Changed
+- **PyPI distribution renamed to `scratchkit`.** The name `mlscratch` is
+  already permanently registered on PyPI by an unrelated project (last
+  released 2021, a much smaller basic-regression-only package — see
+  https://pypi.org/project/mlscratch/). PyPI names are global and cannot be
+  reclaimed from an existing owner just because their package is inactive,
+  so this project now ships as `pip install scratchkit`. **The importable
+  package name is unaffected** — `import mlscratch`, every module path, the
+  `src/mlscratch/` layout, and the `mlscratch` CLI command all stay exactly
+  as they were; only the `[project] name` in `pyproject.toml` (and the
+  `pip install ...` instructions) changed. This is the same split scikit-learn
+  (`pip install scikit-learn` → `import sklearn`) and Beautiful Soup
+  (`pip install beautifulsoup4` → `import bs4`) already use.
 - `mlscratch.supervised` — extracted the input-validation logic that had
   been copy-pasted near-verbatim across `decision_tree.py`, `random_forest.py`,
   `svm.py`, `gradient_boosting.py`, and `adaboost.py` into one shared
@@ -95,6 +107,17 @@ Version numbers follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html
 - `python -m mlscratch info` / `list` — the CLI's sub-package registry was
   hardcoded to 4 entries and silently omitted `mlscratch.neural` (already
   shipped) and the new `mlscratch.metrics` / `mlscratch.preprocessing`
+- `mlscratch.unsupervised` — `KMeans` was fully implemented in `kmeans.py`
+  (with its own passing test file) but was never imported into
+  `unsupervised/__init__.py`, so `from mlscratch.unsupervised import KMeans`
+  raised `ImportError` even though the class worked perfectly — only direct
+  submodule imports (`from mlscratch.unsupervised.kmeans import KMeans`, as
+  the existing test file happened to use) worked. Fixed.
+- `mlscratch.bayesian` — `BayesianLayer` (the variational fully-connected
+  layer building block used by `BayesianNeuralNetwork`) was implemented but
+  never exported, inconsistent with this same module already exporting the
+  analogous Gaussian Process kernel building blocks (`RBFKernel`,
+  `Matern52Kernel`, etc.). Fixed for consistency.
 
 ### Tests
 - 236+ new tests across `tests/supervised/`, `tests/metrics/`,
