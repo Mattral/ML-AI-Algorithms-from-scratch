@@ -146,7 +146,7 @@ class GaussianProcessRegressor:
         X : ndarray of shape (n_samples, n_features) or (n_samples,)
         y : ndarray of shape (n_samples,)
         """
-        self.X_train_ = np.atleast_2d(X) if X.ndim == 1 else X
+        self.X_train_ = X.reshape(-1, 1) if X.ndim == 1 else X
         self.y_train_ = y.copy()
 
         K = self.kernel(self.X_train_, self.X_train_)
@@ -171,7 +171,7 @@ class GaussianProcessRegressor:
         y_mean : ndarray of shape (n_samples,)
         y_std  : ndarray of shape (n_samples,)  [only if return_std]
         """
-        X_ = np.atleast_2d(X) if X.ndim == 1 else X
+        X_ = X.reshape(-1, 1) if X.ndim == 1 else X
         K_star = self.kernel(X_, self.X_train_)   # (n_test, n_train)
         y_mean = K_star @ self.alpha_
 
@@ -195,7 +195,7 @@ class GaussianProcessRegressor:
         samples : ndarray of shape (n_samples, n_test_points)
         """
         rng = np.random.default_rng(random_state)
-        X_ = np.atleast_2d(X) if X.ndim == 1 else X
+        X_ = X.reshape(-1, 1) if X.ndim == 1 else X
         K_star = self.kernel(X_, self.X_train_)
         K_ss = self.kernel(X_, X_)
 
