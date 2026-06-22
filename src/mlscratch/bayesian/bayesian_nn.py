@@ -245,8 +245,17 @@ class BayesianNeuralNetwork:
     # ------------------------------------------------------------------
 
     def _update_params(self, X: np.ndarray, y: np.ndarray) -> None:
-        """Gradient update using a stochastic estimate of the ELBO gradient."""
+        """Gradient update using a stochastic estimate of the ELBO gradient.
+
+        Finite differences: O(2 × n_params) ELBO evaluations per step.
+        Gradients are clipped to ±5 to prevent exploding updates; log_sigma
+        parameters are clamped to [-8, 2] after each step so that exp() never
+        overflows (exp(-8)≈3e-4, exp(2)≈7.4 — a sensible posterior-std range).
+        """
         eps = 1e-5
+        _LOG_SIGMA_MIN, _LOG_SIGMA_MAX = -8.0, 2.0
+        _GRAD_CLIP = 5.0
+
         for layer in self.layers_:
             for param_name in ("mu_W", "log_sigma_W", "mu_b", "log_sigma_b"):
                 param = getattr(layer, param_name)
@@ -260,7 +269,12 @@ class BayesianNeuralNetwork:
                     loss_m = self._elbo(X, y)
                     flat[idx] = orig
                     grad.ravel()[idx] = (loss_p - loss_m) / (2 * eps)
+
+                np.clip(grad, -_GRAD_CLIP, _GRAD_CLIP, out=grad)
                 param -= self.lr * grad
+
+                if "log_sigma" in param_name:
+                    np.clip(param, _LOG_SIGMA_MIN, _LOG_SIGMA_MAX, out=param)
 
     # ------------------------------------------------------------------
     # Public API

@@ -151,6 +151,18 @@ class BayesianNetwork:
         """
         evidence = evidence or {}
 
+        # Querying a variable that is itself observed is a degenerate case:
+        # P(query_var = v | evidence, query_var = v) is a point mass at v,
+        # independent of the rest of the network. Short-circuit it here —
+        # below, evidence reduction strips the query variable's own axis
+        # from its defining CPT along with every other evidenced variable,
+        # so the general variable-elimination path has no axis left to
+        # compute a marginal *over*.
+        if query_var in evidence:
+            result = np.zeros(self._domain[query_var])
+            result[evidence[query_var]] = 1.0
+            return result
+
         # Build initial factors from CPTs
         # A factor maps a tuple of variable names to an ndarray
         factors: list[tuple[tuple, np.ndarray]] = []
@@ -158,17 +170,22 @@ class BayesianNetwork:
         for var in self._order:
             cpt = self._cpt[var].copy()
             scope = tuple(self._parents[var] + [var])
-            # Reduce observed variables
+            # Reduce observed variables. `axis` tracks the position within
+            # the *current* (shrinking) reduced_cpt array, which is not the
+            # same as `i`, the position within the original (fixed) scope:
+            # every evidence-indexed axis collapses reduced_cpt by one
+            # dimension, so later axes shift down by one each time.
             reduced_scope = []
             reduced_cpt = cpt
-            for i, v in enumerate(scope):
+            axis = 0
+            for v in scope:
                 if v in evidence:
-                    # Index into that axis
-                    sl = [slice(None)] * len(scope)
-                    sl[i] = evidence[v]
+                    sl = [slice(None)] * reduced_cpt.ndim
+                    sl[axis] = evidence[v]
                     reduced_cpt = reduced_cpt[tuple(sl)]
                 else:
                     reduced_scope.append(v)
+                    axis += 1
             factors.append((tuple(reduced_scope), reduced_cpt))
 
         # Determine elimination order: all non-query, non-evidence variables

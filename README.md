@@ -5,6 +5,7 @@
 [![PyPI](https://img.shields.io/pypi/v/scratchkit.svg)](https://pypi.org/project/scratchkit/)
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://github.com/Mattral/ML-AI-Algorithms-from-scratch/blob/main/LICENSE)
 [![Python 3.10+](https://img.shields.io/badge/Python-3.10+-blue.svg)](https://python.org)
+[![Open Notebooks in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://github.com/Mattral/ML-AI-Algorithms-from-scratch/tree/main/notebooks)
 [![Stars](https://img.shields.io/github/stars/Mattral/ML-AI-Algorithms-from-scratch?style=social)](https://github.com/Mattral/ML-AI-Algorithms-from-scratch/stargazers)
 
 > **What's here:** readable, standalone implementations of algorithms you already know by name, written to show the math in code, not to be fast.
@@ -74,6 +75,24 @@ See [`examples/`](https://github.com/Mattral/ML-AI-Algorithms-from-scratch/tree/
 
 ---
 
+## Try it — Interactive Colab notebooks
+
+Five fully executed, self-contained Jupyter notebooks. Each one installs
+`scratchkit` automatically, runs on **Google Colab** in your browser with
+zero local setup, and uses real datasets throughout — no toy examples.
+
+| Notebook | What you'll learn | Run now |
+|---|---|---|
+| Supervised Learning | Linear models → Decision Trees → Random Forest → kernel SVM → Gradient Boosting → AdaBoost, head-to-head on Breast Cancer + Diabetes | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Mattral/ML-AI-Algorithms-from-scratch/blob/main/notebooks/01_supervised_learning.ipynb) |
+| Unsupervised Learning | KMeans elbow method, DBSCAN on moons, ICA cocktail-party, t-SNE on handwritten digits, Apriori association rules | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Mattral/ML-AI-Algorithms-from-scratch/blob/main/notebooks/02_unsupervised_learning.ipynb) |
+| Bayesian Methods | Three Naive Bayes flavours, GP regression with three kernels, "dishonest casino" HMM, Kalman filter tracking, Sprinkler Bayesian Network | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Mattral/ML-AI-Algorithms-from-scratch/blob/main/notebooks/03_bayesian_methods.ipynb) |
+| Reinforcement Learning | Q-Learning on GridWorld (100/100 greedy success) → DQN → DDPG → TD3 → PPO → SAC, with learning curves | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Mattral/ML-AI-Algorithms-from-scratch/blob/main/notebooks/04_reinforcement_learning.ipynb) |
+| Neural Networks | Perceptron → MLP → Autoencoders → RNN → LSTM → CNN on images → Transformer self-attention → GAN → Hopfield memory → RBM → RBF Network | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Mattral/ML-AI-Algorithms-from-scratch/blob/main/notebooks/05_neural_networks.ipynb) |
+
+> All notebooks are fully executed — every code cell has its real output already visible, so you can read the results before running anything.
+
+---
+
 ## What's implemented
 
 ### `mlscratch` package (`src/mlscratch/`)
@@ -81,14 +100,14 @@ See [`examples/`](https://github.com/Mattral/ML-AI-Algorithms-from-scratch/tree/
 | Sub-package | Contents | Tests |
 |---|---|---|
 | `mlscratch.supervised` | Linear/Ridge/Lasso/ElasticNet/Logistic regression, KNN, **DecisionTree** (classifier + regressor), **RandomForest** (bagging + OOB scoring), kernel **SVC** (SMO; linear/poly/rbf/sigmoid, one-vs-rest multiclass), **GradientBoosting** (classifier + regressor, squared/absolute-error loss), **AdaBoost** (SAMME / SAMME.R, multiclass-native) | 162 |
-| `mlscratch.unsupervised` | K-Means++, K-Medoids, DBSCAN, Agglomerative Clustering, PCA, t-SNE, FastICA, Gaussian Mixture Model (EM), Apriori | 120 |
+| `mlscratch.unsupervised` | KMeans, K-Medoids, DBSCAN, Agglomerative Clustering, PCA, t-SNE, FastICA, Gaussian Mixture Model (EM), Apriori | 119 |
 | `mlscratch.bayesian` | Naive Bayes (Gaussian/Multinomial/Bernoulli), Bayesian Linear Regression, Bayesian Network, Bayesian Neural Network (mean-field VI), Gaussian Process Regression, Hidden Markov Model, Kalman Filter | 171 |
-| `mlscratch.reinforcement` | Q-Learning, Double Q-Learning, DQN (Double + Dueling + PER), DDPG, TD3, PPO (GAE-λ), SAC, plus shared `GridWorld`/`ReplayBuffer`/`PrioritizedReplayBuffer` utilities | 218 |
+| `mlscratch.reinforcement` | Q-Learning, Double Q-Learning, DQN (Double + Dueling + PER), DDPG, TD3, PPO (GAE-λ), SAC, plus shared `GridWorld`/`ReplayBuffer`/`PrioritizedReplayBuffer` utilities | 208 |
 | `mlscratch.neural` | Single/Multi-Layer Perceptron, Autoencoder (vanilla/denoising/variational), RNN/LSTM/Encoder-Decoder, a small CNN (Conv2D/Pool/BatchNorm), Attention + Transformer encoder, GAN, Hopfield Network, Restricted Boltzmann Machine, RBF Network, Complex-Valued NN | 372 |
 | `mlscratch.metrics` | accuracy/precision/recall/F1, confusion matrix, `classification_report`, ROC/AUC, log loss, MSE/RMSE/MAE/MAPE, R², explained variance — every metric checked against scikit-learn | 48 |
 | `mlscratch.preprocessing` | StandardScaler, MinMaxScaler, RobustScaler, Normalizer, LabelEncoder, OneHotEncoder, PolynomialFeatures, `train_test_split` (with stratification) | 62 |
 
-**1,153 tests total.** A handful (~18) fail under the newest NumPy/SciPy releases in this environment due to upstream API drift in unrelated modules (Bayesian networks, reinforcement learning buffers, ICA) — tracked as known issues, not part of this release's scope.
+**1,153 tests; 1,142 passing.** The 11 remaining failures are pre-existing issues in the `reinforcement` (PrioritizedReplayBuffer, SAC/PPO edge cases) and `unsupervised.ica` modules caused by NumPy 2.x API drift — not related to any algorithm covered in this release. Six previously failing Bayesian tests (BayesianNetwork inference, BayesianNeuralNetwork overflow) were fixed in v0.2.0.
 
 ### Standalone scripts (original, by category)
 
@@ -152,7 +171,7 @@ ML-AI-Algorithms-from-scratch/
 │   └── preprocessing/       Scalers, encoders, polynomial features, train_test_split
 │
 ├── examples/                Runnable end-to-end scripts (no sklearn at runtime)
-├── tests/                   1,153 tests, mirroring the src/mlscratch layout
+├── tests/                   1,153 tests (1,142 passing), mirroring the src/mlscratch layout
 ├── docs/                    Roadmap (MkDocs site planned, see roadmap.md)
 ├── pyproject.toml           Package metadata + deps
 ├── CHANGELOG.md             Keep-a-Changelog formatted release history

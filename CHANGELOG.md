@@ -93,6 +93,14 @@ Version numbers follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html
   `metrics` / `preprocessing` modules together, including a from-scratch-only
   classification and regression pipeline with no scikit-learn dependency
 
+#### `notebooks/` (new)
+- Five fully-executed Jupyter notebooks covering every algorithm in the
+  package, each with a one-click Google Colab badge, real datasets,
+  and quantitative outputs already rendered. All five notebooks were
+  verified to execute end-to-end without errors before being committed.
+  See `notebooks/README.md` for the full table with Colab links, or open
+  them directly from the repository's main `README.md`.
+
 ### Fixed
 - `mlscratch.supervised.knn` — `KNeighboursClassifier`/`Regressor` now validate
   input shapes in `fit`/`predict` (raising `ValueError`/`RuntimeError` instead
@@ -118,6 +126,27 @@ Version numbers follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html
   never exported, inconsistent with this same module already exporting the
   analogous Gaussian Process kernel building blocks (`RBFKernel`,
   `Matern52Kernel`, etc.). Fixed for consistency.
+- `mlscratch.bayesian.BayesianNetwork.query()` — two bugs in the variable
+  elimination logic: (1) evidence-reduction axis tracking was computed
+  against the *original* (fixed-size) variable scope rather than the
+  *current* (shrinking) reduced array, producing incorrect slices when
+  multiple evidence variables appeared in the same CPT; (2) querying a
+  variable that was also in the evidence set was not short-circuited to
+  the correct point-mass response. Both fixed; all 20 `test_bayesian_network`
+  tests now pass (previously 3 failed).
+- `mlscratch.bayesian.BayesianNeuralNetwork` — the variational inference
+  training loop used finite-difference gradient estimation with no bounds
+  on the `log_sigma` parameters, which caused `exp(log_sigma)` to overflow
+  to `inf` during training on any dataset with more than ~5–6 features.
+  Fixed by clamping `log_sigma` to `[-8, 2]` after each update step and
+  clipping gradients to `±5.0`. All 23 BNN tests now pass (previously
+  3 failed) and the module works correctly on the full 30-feature Breast
+  Cancer Wisconsin dataset.
+- `mlscratch.bayesian.GaussianProcessRegressor.predict()` — 1-D input
+  arrays (shape `(n,)`) were reshaped with `np.atleast_2d()` which
+  produces `(1, n)` instead of the required `(n, 1)`, causing a kernel
+  matrix dimension mismatch. Fixed to use `.reshape(-1, 1)` consistently
+  in both `fit()` and `predict()`.
 
 ### Tests
 - 236+ new tests across `tests/supervised/`, `tests/metrics/`,
